@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/static/styles/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,400&family=Open+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    {% block title_block %}
+    {% endblock %}
+</head>
+<body>
+    <nav class="navbar">
+        <button>
+            <img alt="home" class="nav-logo" src="{% static 'images/home.svg' %}"/>
+            Dashboard
+        </button>
+        <button>
+            <img alt="home" class="nav-logo" src="{% static 'images/box.svg' %}"/>
+            Product
+        </button>
+        <button>
+            <img alt="home" class="nav-logo" src="{% static 'images/pos.svg' %}"/>
+            POS
+        </button>
+        <button>
+            <img alt="home" class="nav-logo" src="{% static 'images/stock.svg' %}"/>
+            Stock
+        </button>
+        <button>
+            <img alt="home" class="nav-logo" src="{% static 'images/sales.svg' %}"/>
+            Sales
+        </button>
+        <button>
+            <img alt="home" class="nav-logo" src="{% static 'images/report.svg' %}"/>
+            Daily Reports
+        </button>
+        <button>
+            <img alt="home" class="nav-logo" src="{% static 'images/report.svg' %}"/>
+            Weekly Reports
+        </button>
+        <button>
+            <img alt="home" class="nav-logo" src="{% static 'images/report.svg' %}"/>
+            Monthly Reports
+        </button>
+
+    </nav>
+    {% block body_block %}
+
+    {% endblock %}
+
+    {% block footer_block %}
+    {% endblock %}
+</body>
+</html>
