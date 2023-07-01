@@ -1,0 +1,65 @@
+{% extends 'pos/user/base.html' %}
+{% load static %}
+
+{% block title_block %}
+    <title>Product</title>
+{% endblock %}
+
+{% block body_block %}
+    <main>
+        <button class="btn-primary">
+            <img alt="home" src="{% static 'images/plus.svg' %}"/>
+            ADD NEW
+        </button>
+
+        <table class="product">
+            <thead>
+                <tr>
+                    <th>PRODUCT ID</th>
+                    <th>PRODUCT NAME</th>
+                    <th>UNIT PRICE</th>
+                    <th>QUANTITY</th>
+                    <th>ACTION</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Gilbeys Gin 1Litre</td>
+                    <td>1000</td>
+                    <td>1</td>
+                    <td>
+                        <img alt="edit" class="icon" src="{% static 'images/edit.svg' %}"/>
+                        <img alt="delete" src="{% static 'images/delete.svg' %}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>Gilbeys Gin 1Litre</td>
+                    <td>1000</td>
+                    <td>1</td>
+                    <td>
+                        <img alt="edit" class="icon" src="{% static 'images/edit.svg' %}"/>
+                        <img alt="delete" src="{% static 'images/delete.svg' %}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>Gilbeys Gin 1Litre</td>
+                    <td>1000</td>
+                    <td>1</td>
+                    <td>
+                        <img alt="edit" class="icon" src="{% static 'images/edit.svg' %}"/>
+                        <img alt="delete" src="{% static 'images/delete.svg' %}"/>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </main>
+
+    <script>
+
+    </script>
+
+{% endblock %}

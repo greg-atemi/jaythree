@@ -7,14 +7,25 @@ html,body{
     height:100%;
 }
 
-.navbar{
+.sidebar{
     background-color: #171154;
     color: #FFFFFF;
     width: 20%;
     height: 100%;
 }
 
-.navbar button{
+body{
+    display: flex;
+    background-color: #FBFBFB;
+}
+
+.main2{
+    display: flex;
+    padding-top: 40px;
+    padding-left: 40px;
+}
+
+.sidebar button{
     background-color: transparent;
     border: transparent;
     display: flex;
@@ -34,4 +45,94 @@ html,body{
     margin-right: 16px;
     margin-top: 8px;
     margin-bottom: 8px;
+}
+
+.topbar{
+    background-color: #FFFFFF;
+    display: flex;
+    flex-direction: row-reverse;
+    font-family: Inter, sans-serif;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 32px;
+}
+
+.parent{
+    width: 80%;
+}
+
+.pill{
+    padding: 32px 24px;
+    display: flex;
+    flex-direction: column;
+    font-size: 16px;
+    font-family: Inter, sans-serif;
+    background-color: #ffffff;
+    border-radius: 24px;
+    margin-right: 40px;
+    width: 200px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.big{
+    font-family: Inter, sans-serif;
+    font-size: 36px;
+}
+
+main{
+    padding-top: 40px;
+    padding-left: 40px;
+}
+
+.btn-primary{
+    background-color: #171154;
+    border: transparent;
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: 8px;
+    color: #FFFFFF;
+    font-size: 14px;
+    font-family: Inter, sans-serif;
+}
+
+.btn-primary img{
+    margin-right: 6px;
+}
+
+table{
+    border: 1px solid #B7B9BC;
+    border-collapse: collapse;
+    border-radius: 12px;
+    margin-top: 36px;
+}
+
+thead{
+    border: 1px solid #B7B9BC;
+    background-color: #F9FAFB;
+    color: #6B7280;
+}
+
+thead th{
+    padding: 12px 24px;
+    font-family: Inter, sans-serif;
+    font-size: 14px;
+    background-color: #F9FAFB;
+}
+tbody tr{
+    border-bottom: 1px solid #ced0d4;
+}
+td{
+    font-family: Inter, sans-serif;
+    padding: 12px 32px;
+    text-align: center;
+    background-color: #FFFFFF;
+}
+
+td .icon{
+    margin-right: 16px;
+}
+
+.product{
+
 }
