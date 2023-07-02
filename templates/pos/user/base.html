@@ -17,7 +17,7 @@
             <img alt="home" class="nav-logo" src="{% static 'images/home.svg' %}"/>
             Dashboard
         </button>
-        <button>
+        <button id="product">
             <img alt="home" class="nav-logo" src="{% static 'images/box.svg' %}"/>
             Product
         </button>
@@ -61,8 +61,10 @@
     {% endblock %}
 </body>
 
-<script>
-    // document.getElementById("date").innerHTML = Date();
+<script type="text/javascript">
+    document.getElementById("product").onclick = function () {
+        location.href = "/pos/product";
+    };
 </script>
 
 </html>

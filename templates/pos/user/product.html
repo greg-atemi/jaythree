@@ -7,7 +7,7 @@
 
 {% block body_block %}
     <main>
-        <button class="btn-primary">
+        <button id="new" class="btn-primary">
             <img alt="home" src="{% static 'images/plus.svg' %}"/>
             ADD NEW
         </button>
@@ -56,9 +56,60 @@
             </tbody>
         </table>
 
+        <div id="modal" class="modal">
+            <div class="modal-content">
+                <p>ADD NEW PRODUCT</p>
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <div class="fieldWrapper">
+                        <label for="name">NAME</label>
+                        <input class="input" type="text" name="name" id="name" required>
+                    </div>
+
+                    <div class="fieldWrapper">
+                        <label for="quantity">QUANTITY</label>
+                        <input class="input" type="number" name="quantity" id="quantity" required>
+                    </div>
+
+                    <div class="fieldWrapper">
+                        <label for="price">PRICE in Kshs</label>
+                        <input class="input" type="number" name="price" id="price" required>
+                    </div>
+
+                    <div class="fieldWrapper">
+                        <label for="description">DESCRIPTION</label>
+                        <textarea class="input" name="description" id="description" required></textarea>
+                    </div>
+
+                    <div class="button-group">
+                        <input class="btn-primary" type="submit" value="SAVE"/>
+                        <button id="clear" class="btn-secondary">
+                            CANCEL
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </main>
 
-    <script>
+    <script type="text/javascript">
+        document.getElementById("new").onclick = function () {
+            document.getElementById('modal').style.display='block'
+        };
+
+        let modal = document.getElementById("modal");
+
+        let btn_new = document.getElementById("new");
+
+        btn_new.onclick = function () {
+            modal.style.display = "block";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
 
     </script>
 
