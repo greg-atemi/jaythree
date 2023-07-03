@@ -1,0 +1,41 @@
+{% extends 'pos/user/products.html' %}
+{% load static %}
+{% block content_block %}
+        <div id="modal" class="modal">
+            <div class="modal-content" style="width: 25%;margin-top: 10%">
+                <p>DELETE PRODUCT</p>
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <div class="fieldWrapper">
+                        <label>ARE YOU SURE?</label>
+                        <label>DELETE {{ product.name }}</label>
+                    </div>
+
+                    <div class="button-group">
+                        <input class="btn-primary" type="submit" value="YES"/>
+                        <a class="btn-secondary" style="width:54px;justify-content:center;text-decoration: none" href="{% url 'pos:products' %}">NO</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+{% endblock %}
+
+{% block script_block %}
+    <script type="text/javascript">
+        let modal = document.getElementById("modal");
+
+        window.onload = function () {
+            modal.style.display = "block";
+        }
+
+        window.onclick = function(event) {
+            if (event.target === modal) {
+                location.href = "/pos/products";
+            }
+        }
+
+        product.onclick = function () {
+            location.href = "/pos/products";
+        };
+    </script>
+{% endblock %}

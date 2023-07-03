@@ -1,54 +1,46 @@
 {% extends 'pos/user/products.html' %}
 {% load static %}
 {% block content_block %}
-        <div id="modal" class="modal">
-            <div class="modal-content">
-                <p>UPDATE PRODUCT</p>
-                <form action="" method="post">
-                    {% csrf_token %}
-                    <div class="fieldWrapper">
-                        <label for="name">Name</label>
-                        <input class="input" type="text" name="name" id="name" value="{{product.name}}" required>
-                    </div>
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <p>UPDATE PRODUCT</p>
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="fieldWrapper">
+                    <label for="name">Name</label>
+                    <input class="input" type="text" name="name" id="name" value="{{product.name}}" required>
+                </div>
 
-                    <div class="fieldWrapper">
-                        <label for="quantity">Quantity</label>
-                        <input class="input" type="number" name="quantity" id="quantity" value="{{product.quantity}}" disabled>
-                    </div>
+                <div class="fieldWrapper">
+                    <label for="quantity">Quantity</label>
+                    <input class="input" type="number" name="quantity" id="quantity" value="{{product.quantity}}" disabled>
+                </div>
 
-                    <div class="fieldWrapper">
-                        <label for="unit_price">Price in Kshs</label>
-                        <input class="input" type="number" name="unit_price" id="unit_price" value="{{product.unit_price}}" required>
-                    </div>
+                <div class="fieldWrapper">
+                    <label for="unit_price">Price in Kshs</label>
+                    <input class="input" type="number" name="unit_price" id="unit_price" value="{{product.unit_price}}" required>
+                </div>
 
-                    <div class="fieldWrapper">
-                        <label for="description">Description</label>
-                        <textarea id="decr" class="input" name="description" id="description" value="{{product.description}}"></textarea>
-                    </div>
+                <div class="fieldWrapper">
+                    <label for="description">Description</label>
+                    <textarea class="input" name="description" id="description"></textarea>
+                </div>
 
-                    <div class="button-group">
-                        <input class="btn-primary" type="submit" value="SAVE"/>
-                        <button id="cancel" class="btn-secondary">
-                            CANCEL
-                        </button>
-                    </div>
-                </form>
-            </div>
+                <div class="button-group">
+                    <input class="btn-primary" type="submit" value="SAVE"/>
+                    <a class="btn-secondary" style="width:54px;justify-content:center;text-decoration: none" href="{% url 'pos:products' %}">CANCEL</a>
+                </div>
+            </form>
         </div>
+    </div>
 {% endblock %}
 
 {% block script_block %}
     <script type="text/javascript">
         let modal = document.getElementById("modal");
-        let btn_new = document.getElementById("new");
-        let cancel = document.getElementById("cancel");
 
         window.onload = function () {
             modal.style.display = "block";
-        }
-
-        cancel.onclick = function () {
-            modal.style.display = "none";
         }
 
         window.onclick = function(event) {
