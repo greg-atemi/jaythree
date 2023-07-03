@@ -115,11 +115,12 @@ main{
     background-color: #FFFFFF;
     color: #000000;
     width: fit-content;
-    margin: 5% auto;
+    margin: 4% auto;
 }
 
 .modal-content p{
     margin-bottom: 24px;
+    font-size: 18px;
 }
 
 .modal-content .btn-primary{
@@ -134,13 +135,15 @@ main{
 
 .modal-content .fieldWrapper label{
     margin-bottom: 8px;
+    font-size: 18px;
 }
 
 .modal-content .fieldWrapper .input{
-    width: 240px;
+    width: 280px;
     border-radius: 8px;
     border: 1px solid #bcc0c5;
-    padding: 4px 12px;
+    padding: 8px 12px;
+    font-size: 16px;
 }
 
 .modal-content .button-group{

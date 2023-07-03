@@ -13,7 +13,7 @@
 </head>
 <body>
     <nav class="sidebar">
-        <button>
+        <button id="dashboard">
             <img alt="home" class="nav-logo" src="{% static 'images/home.svg' %}"/>
             Dashboard
         </button>
@@ -62,8 +62,16 @@
 </body>
 
 <script type="text/javascript">
-    document.getElementById("product").onclick = function () {
-        location.href = "/pos/product";
+
+    let dashboard = document.getElementById("dashboard");
+    let product = document.getElementById("product");
+
+    dashboard.onclick = function () {
+        location.href = "/pos/";
+    };
+
+    product.onclick = function () {
+        location.href = "/pos/products";
     };
 </script>
 

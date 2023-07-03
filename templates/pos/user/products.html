@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title_block %}
-    <title>Product</title>
+    <title>Products</title>
 {% endblock %}
 
 {% block body_block %}
@@ -23,94 +23,84 @@
                 </tr>
             </thead>
             <tbody>
+                {% for product in products %}
                 <tr>
-                    <td>1</td>
-                    <td>Gilbeys Gin 1Litre</td>
-                    <td>1000</td>
-                    <td>1</td>
+                    <td>{{ product.product_id }}</td>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.unit_price }}</td>
+                    <td>{{ product.quantity }}</td>
                     <td>
-                        <img alt="edit" class="icon" src="{% static 'images/edit.svg' %}"/>
-                        <img alt="delete" src="{% static 'images/delete.svg' %}"/>
+                        <a href="{% url 'pos:update_product' product.product_id %}">
+                            <img id="edit"  alt="edit" class="icon" src="{% static 'images/edit.svg' %}"/>
+                        </a>
+                        <a href="{% url 'pos:delete_product' product.product_id %}">
+                            <img alt="delete" src="{% static 'images/delete.svg' %}"/>
+                        </a>
                     </td>
                 </tr>
-                <tr>
-                    <td>1</td>
-                    <td>Gilbeys Gin 1Litre</td>
-                    <td>1000</td>
-                    <td>1</td>
-                    <td>
-                        <img alt="edit" class="icon" src="{% static 'images/edit.svg' %}"/>
-                        <img alt="delete" src="{% static 'images/delete.svg' %}"/>
-                    </td>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>Gilbeys Gin 1Litre</td>
-                    <td>1000</td>
-                    <td>1</td>
-                    <td>
-                        <img alt="edit" class="icon" src="{% static 'images/edit.svg' %}"/>
-                        <img alt="delete" src="{% static 'images/delete.svg' %}"/>
-                    </td>
-                </tr>
+                {% endfor %}
             </tbody>
         </table>
 
+        {% block content_block %}
         <div id="modal" class="modal">
             <div class="modal-content">
                 <p>ADD NEW PRODUCT</p>
                 <form action="" method="post">
                     {% csrf_token %}
                     <div class="fieldWrapper">
-                        <label for="name">NAME</label>
+                        <label for="name">Name</label>
                         <input class="input" type="text" name="name" id="name" required>
                     </div>
 
                     <div class="fieldWrapper">
-                        <label for="quantity">QUANTITY</label>
+                        <label for="quantity">Quantity</label>
                         <input class="input" type="number" name="quantity" id="quantity" required>
                     </div>
 
                     <div class="fieldWrapper">
-                        <label for="price">PRICE in Kshs</label>
+                        <label for="price">Price in Kshs</label>
                         <input class="input" type="number" name="price" id="price" required>
                     </div>
 
                     <div class="fieldWrapper">
-                        <label for="description">DESCRIPTION</label>
-                        <textarea class="input" name="description" id="description" required></textarea>
+                        <label for="description">Description</label>
+                        <textarea class="input" name="description" id="description"></textarea>
                     </div>
 
                     <div class="button-group">
                         <input class="btn-primary" type="submit" value="SAVE"/>
-                        <button id="clear" class="btn-secondary">
+                        <button id="cancel" class="btn-secondary">
                             CANCEL
                         </button>
                     </div>
                 </form>
             </div>
         </div>
+        {% endblock %}
     </main>
 
+    {% block script_block %}
     <script type="text/javascript">
-        document.getElementById("new").onclick = function () {
-            document.getElementById('modal').style.display='block'
-        };
-
         let modal = document.getElementById("modal");
-
         let btn_new = document.getElementById("new");
+        let cancel = document.getElementById("cancel");
+        let edit = document.getElementById("edit");
 
         btn_new.onclick = function () {
-            modal.style.display = "block";
+            location.href = "/pos/save_product";
+        }
+
+        cancel.onclick = function () {
+            modal.style.display = "none";
         }
 
         window.onclick = function(event) {
-            if (event.target == modal) {
+            if (event.target === modal) {
                 modal.style.display = "none";
             }
         }
-
     </script>
+    {% endblock %}
 
 {% endblock %}
