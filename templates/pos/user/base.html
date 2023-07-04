@@ -25,7 +25,7 @@
             <img alt="home" class="nav-logo" src="{% static 'images/pos.svg' %}"/>
             POS
         </button>
-        <button>
+        <button id="stock">
             <img alt="home" class="nav-logo" src="{% static 'images/stock.svg' %}"/>
             Stock
         </button>
@@ -65,6 +65,7 @@
 
     let dashboard = document.getElementById("dashboard");
     let product = document.getElementById("product");
+    let stock = document.getElementById("stock");
 
     dashboard.onclick = function () {
         location.href = "/pos/";
@@ -72,6 +73,10 @@
 
     product.onclick = function () {
         location.href = "/pos/products";
+    };
+
+    stock.onclick = function () {
+        location.href = "/pos/stock";
     };
 </script>
 

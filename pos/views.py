@@ -90,3 +90,65 @@ def delete_product(request, product_id):
         return redirect('pos:products')
 
     return render(request, 'pos/user/delete_product.html', context)
+
+
+def stock(request):
+    product_list = Product.objects.all()
+    context = {
+        'products': product_list
+    }
+    return render(request, 'pos/user/stock.html', context)
+
+
+def add_stock(request, product_id):
+    product_list = Product.objects.all()
+    product = Product.objects.get(product_id=product_id)
+    context = {
+        'products': product_list,
+        'product': product
+    }
+
+    if request.method == "POST":
+        product_id = product.product_id
+        name = product.name
+        quantity = product.quantity + int(request.POST['quantity'])
+        unit_price = product.unit_price
+        description = product.description
+
+        updated_product = Product(product_id=product_id, name=name, quantity=quantity, unit_price=unit_price,
+                                  description=description)
+
+        updated_product.save()
+
+        messages.success(request, "Stock (" + name + " " + request.POST['quantity'] + ") Added Successfully. \n ")
+        return redirect('pos:stock')
+    return render(request, 'pos/user/add_stock.html', context)
+
+
+def remove_stock(request, product_id):
+    product_list = Product.objects.all()
+    product = Product.objects.get(product_id=product_id)
+    context = {
+        'products': product_list,
+        'product': product
+    }
+
+    if request.method == "POST":
+        product_id = product.product_id
+        name = product.name
+        quantity = product.quantity - request.POST['quantity']
+        unit_price = product.unit_price
+        description = product.description
+
+        if quantity < 0:
+            messages.error(request, "Stock (" + name + ") is less than the reducing amount")
+            return redirect('pos:stock')
+
+        updated_product = Product(product_id=product_id, name=name, quantity=quantity, unit_price=unit_price,
+                                  description=description)
+
+        updated_product.save()
+
+        messages.success(request, "Stock (" + name + ") Deleted Successfully. \n ")
+        return redirect('pos:stock')
+    return render(request, 'pos/user/add_stock.html', context)

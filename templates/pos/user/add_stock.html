@@ -1,0 +1,59 @@
+{% extends 'pos/user/products.html' %}
+{% load static %}
+{% block content_block %}
+        <div id="modal" class="modal">
+            <div class="modal-content">
+                <p>ADD STOCK</p>
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <div class="fieldWrapper">
+                        <label for="name">Name</label>
+                        <input class="input" type="text" name="name" id="name" value="{{product.name}}" readonly>
+                    </div>
+
+                    <div class="fieldWrapper">
+                        <label for="quantity">Quantity</label>
+                        <input class="input" type="number" name="quantity" id="quantity" value="{{product.quantity}}" readonly>
+                    </div>
+
+                    <div class="fieldWrapper">
+                        <label for="amount_added">Amount Added</label>
+                        <input class="input" type="number" name="quantity" id="amount_added" min="0" required>
+                    </div>
+
+                    <div class="button-group">
+                        <input class="btn-primary" type="submit" value="SAVE"/>
+                        <button id="cancel" class="btn-secondary">
+                            CANCEL
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+{% endblock %}
+
+{% block script_block %}
+    <script type="text/javascript">
+        let modal = document.getElementById("modal");
+        let btn_new = document.getElementById("new");
+        let cancel = document.getElementById("cancel");
+
+        window.onload = function () {
+            modal.style.display = "block";
+        }
+
+        cancel.onclick = function () {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target === modal) {
+                location.href = "/pos/products";
+            }
+        }
+
+        product.onclick = function () {
+            location.href = "/pos/products";
+        };
+    </script>
+{% endblock %}

@@ -207,3 +207,33 @@ td .icon{
     background-color: #00FF0050;
     margin-bottom: 20px;
 }
+
+.button-cell{
+    display: flex;
+}
+
+.btn-primary2{
+    text-decoration: none;
+    background-color: #171154;
+    border: transparent;
+    width: 60px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    color: #FFFFFF;
+    font-size: 14px;
+    font-family: Inter, sans-serif;
+    margin-right: 24px;
+}
+
+.btn-secondary2{
+    text-decoration: none;
+    background-color: #D1CFDD;
+    border: 1px solid #171154;
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: 8px;
+    color: #171154;
+    font-size: 14px;
+    font-family: Inter, sans-serif;
+}
