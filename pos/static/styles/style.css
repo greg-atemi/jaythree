@@ -200,6 +200,10 @@ td .icon{
     margin-right: 16px;
 }
 
-.product{
-
+.message{
+    font-family: Inter, sans-serif;
+    padding: 16px;
+    width: 75%;
+    background-color: #00FF0050;
+    margin-bottom: 20px;
 }

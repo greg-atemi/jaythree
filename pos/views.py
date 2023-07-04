@@ -43,6 +43,7 @@ def save_product(request):
                                             description=description)
 
         newproduct.save()
+        messages.success(request, "Product (" + name + ") Created Successfully. \n ")
 
         return redirect('pos:products')
     return render(request, 'pos/user/new_product.html', context)
@@ -57,15 +58,18 @@ def update_product(request, product_id):
     }
 
     if request.method == "POST":
+        product_id = product.product_id
         name = request.POST['name']
         quantity = product.quantity
         unit_price = request.POST['unit_price']
         description = request.POST['description']
 
-        updated_product = Product(name=name, quantity=quantity, unit_price=unit_price,
+        updated_product = Product(product_id=product_id, name=name, quantity=quantity, unit_price=unit_price,
                                   description=description)
 
         updated_product.save()
+
+        messages.success(request, "Product (" + name + ") Updated Successfully. \n ")
 
         return redirect('pos:products')
     return render(request, 'pos/user/update_product.html', context)
@@ -73,6 +77,7 @@ def update_product(request, product_id):
 
 def delete_product(request, product_id):
     product = Product.objects.get(product_id=product_id)
+    name = product.name
     product_list = Product.objects.all()
     context = {
         'product': product,
@@ -81,6 +86,7 @@ def delete_product(request, product_id):
 
     if request.method == "POST":
         product.delete()
+        messages.success(request, "Product (" + name + ") Deleted Successfully. \n ")
         return redirect('pos:products')
 
     return render(request, 'pos/user/delete_product.html', context)
