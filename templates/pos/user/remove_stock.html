@@ -3,7 +3,7 @@
 {% block content_block %}
         <div id="modal" class="modal">
             <div class="modal-content">
-                <p>ADD STOCK</p>
+                <p>REMOVE STOCK</p>
                 <form action="" method="post">
                     {% csrf_token %}
                     <div class="fieldWrapper">
@@ -17,8 +17,8 @@
                     </div>
 
                     <div class="fieldWrapper">
-                        <label for="amount_added">Amount Added</label>
-                        <input class="input" type="number" name="quantity" id="amount_added" min="0" required>
+                        <label for="amount_reduced">Amount Reduced</label>
+                        <input class="input" type="number" name="quantity" id="amount_reduced" min="0" required>
                     </div>
 
                     <div class="button-group">

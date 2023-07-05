@@ -13,9 +13,9 @@
             </div>
         {% endfor %}
 
-        <button id="new" class="btn-primary">
+        <button id="new_product" class="btn-primary">
             <img alt="home" src="{% static 'images/plus.svg' %}"/>
-            ADD NEW
+            ADD NEW PRODUCT
         </button>
 
         <table class="product">
@@ -87,12 +87,12 @@
     {% block script_block %}
     <script type="text/javascript">
         let modal = document.getElementById("modal");
-        let btn_new = document.getElementById("new");
+        let btn_new = document.getElementById("new_product");
         let cancel = document.getElementById("cancel");
         let edit = document.getElementById("edit");
 
         btn_new.onclick = function () {
-            location.href = "/pos/save_product";
+            location.href = "/pos/products";
         }
 
         cancel.onclick = function () {

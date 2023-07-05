@@ -120,7 +120,8 @@ def add_stock(request, product_id):
 
         updated_product.save()
 
-        messages.success(request, "Stock (" + name + " " + request.POST['quantity'] + ") Added Successfully. \n ")
+        messages.success(request, "Stock of (" + name + " " + "Amount: " + request.POST[
+            'quantity'] + ") Added Successfully. \n ")
         return redirect('pos:stock')
     return render(request, 'pos/user/add_stock.html', context)
 
@@ -136,7 +137,7 @@ def remove_stock(request, product_id):
     if request.method == "POST":
         product_id = product.product_id
         name = product.name
-        quantity = product.quantity - request.POST['quantity']
+        quantity = product.quantity - int(request.POST['quantity'])
         unit_price = product.unit_price
         description = product.description
 
@@ -149,6 +150,7 @@ def remove_stock(request, product_id):
 
         updated_product.save()
 
-        messages.success(request, "Stock (" + name + ") Deleted Successfully. \n ")
+        messages.success(request, "Stock of (" + name + " " + "Amount: " + request.POST[
+            'quantity'] + ") Reduced Successfully. \n ")
         return redirect('pos:stock')
-    return render(request, 'pos/user/add_stock.html', context)
+    return render(request, 'pos/user/remove_stock.html', context)
