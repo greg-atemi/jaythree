@@ -1,0 +1,24 @@
+version: '2.20'
+
+services:
+  django_gunicorn:
+    volumes:
+      - /var/lib/docker/volumes/vol1/_data
+    env_file:
+      - .env
+    build:
+      context: .
+    ports:
+      - "8005:8005"
+
+  nginx:
+    build: ./nginx
+    volumes:
+      - /var/lib/docker/volumes/vol2/_data
+    ports:
+      - "85:85"
+    depends_on:
+      - django_gunicorn
+
+volumes:
+  static:

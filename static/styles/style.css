@@ -1,0 +1,240 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+
+html,body{
+    height:100%;
+}
+
+.sidebar{
+    background-color: #171154;
+    color: #FFFFFF;
+    width: 20%;
+    height: 100%;
+}
+
+body{
+    display: flex;
+    background-color: #FBFBFB;
+}
+
+.main2{
+    display: flex;
+    padding-top: 40px;
+    padding-left: 40px;
+}
+
+.sidebar button{
+    background-color: transparent;
+    border: transparent;
+    display: flex;
+    align-items: center;
+    width: 80%;
+    margin-left: 8px;
+    margin-right: 8px;
+    color: #FFFFFF;
+    font-size: 14px;
+    font-family: Lato, sans-serif;
+    margin-bottom: 8px;
+}
+
+.nav-logo{
+    width: 24px;
+    height: 24px;
+    margin-right: 16px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+.topbar{
+    background-color: #FFFFFF;
+    display: flex;
+    flex-direction: row-reverse;
+    font-family: Inter, sans-serif;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 32px;
+}
+
+.parent{
+    width: 80%;
+}
+
+.pill{
+    padding: 32px 24px;
+    display: flex;
+    flex-direction: column;
+    font-size: 16px;
+    font-family: Inter, sans-serif;
+    background-color: #ffffff;
+    border-radius: 24px;
+    margin-right: 40px;
+    width: 200px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.big{
+    font-family: Inter, sans-serif;
+    font-size: 36px;
+}
+
+main{
+    padding-top: 40px;
+    padding-left: 40px;
+}
+
+.btn-primary{
+    background-color: #171154;
+    border: transparent;
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: 8px;
+    color: #FFFFFF;
+    font-size: 14px;
+    font-family: Inter, sans-serif;
+}
+
+.modal{
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    overflow: auto;
+    position: fixed;
+    background-color: rgba(0,0,0,0.75);
+}
+
+.modal-content{
+    font-family: Lato, sans-serif;
+    padding: 24px 48px;
+    font-size: 16px;
+    border-radius: 12px;
+    background-color: #FFFFFF;
+    color: #000000;
+    width: fit-content;
+    margin: 4% auto;
+}
+
+.modal-content p{
+    margin-bottom: 24px;
+    font-size: 18px;
+}
+
+.modal-content .btn-primary{
+    width: 80px;
+}
+
+.modal-content .fieldWrapper{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 24px;
+}
+
+.modal-content .fieldWrapper label{
+    margin-bottom: 8px;
+    font-size: 18px;
+}
+
+.modal-content .fieldWrapper .input{
+    width: 280px;
+    border-radius: 8px;
+    border: 1px solid #bcc0c5;
+    padding: 8px 12px;
+    font-size: 16px;
+}
+
+.modal-content .button-group{
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn-secondary{
+    background-color: #D1CFDD;
+    border: 1px solid #171154;
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: 8px;
+    color: #171154;
+    font-size: 14px;
+    font-family: Inter, sans-serif;
+}
+
+.btn-primary img{
+    margin-right: 6px;
+}
+
+table{
+    border: 1px solid #B7B9BC;
+    border-collapse: collapse;
+    border-radius: 12px;
+    margin-top: 36px;
+}
+
+thead{
+    border: 1px solid #B7B9BC;
+    background-color: #F9FAFB;
+    color: #6B7280;
+}
+
+thead th{
+    padding: 12px 24px;
+    font-family: Inter, sans-serif;
+    font-size: 14px;
+    background-color: #F9FAFB;
+}
+tbody tr{
+    border-bottom: 1px solid #ced0d4;
+}
+td{
+    font-family: Inter, sans-serif;
+    padding: 12px 32px;
+    text-align: center;
+    background-color: #FFFFFF;
+}
+
+td .icon{
+    margin-right: 16px;
+}
+
+.message{
+    font-family: Inter, sans-serif;
+    padding: 16px;
+    width: 75%;
+    background-color: #00FF0050;
+    margin-bottom: 20px;
+}
+
+.button-cell{
+    display: flex;
+    padding: 8px 32px;
+}
+
+.btn-primary2{
+    text-decoration: none;
+    background-color: #171154;
+    border: transparent;
+    width: 50px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    color: #FFFFFF;
+    font-size: 10px;
+    font-family: Inter, sans-serif;
+    margin-right: 24px;
+}
+
+.btn-secondary2{
+    text-decoration: none;
+    background-color: #D1CFDD;
+    border: 1px solid #171154;
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: 8px;
+    color: #171154;
+    font-size: 10px;
+    font-family: Inter, sans-serif;
+}
