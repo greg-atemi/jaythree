@@ -1,18 +1,7 @@
-import sys
-import json
-from pickle import FALSE
-from flask import jsonify
-from pos.models import Product
-from datetime import date, datetime
-from django.contrib import messages
-from django.http import HttpResponse
-from django.db.models import Count, Sum
 from django.shortcuts import redirect, render
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
-from django.utils.datastructures import MultiValueDictKeyError
 from django.shortcuts import render, redirect
-
+from pos.models import Product
+from django.contrib import messages
 
 def dashboard(request):
     context = {}
