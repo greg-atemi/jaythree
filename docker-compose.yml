@@ -1,10 +1,22 @@
 version: '2.20'
 
 services:
+  db:
+    image: postgres:15
+    environment:
+      # - .env_db
+      - POSTGRES_HOST_AUTH_METHOD=trust
+      # - POSTGRES_DB = mydb
+      # - POSTGRES_USER = myuser
+      # - POSTGRES_PASSWORD = password
+      
+    volumes:
+      - /var/lib/docker/volumes/db/_data
+
   django_gunicorn:
     volumes:
       - /var/lib/docker/volumes/vol1/_data
-    env_file:
+    environment:
       - .env
     build:
       context: .
@@ -19,6 +31,7 @@ services:
       - "85:85"
     depends_on:
       - django_gunicorn
+      - db
 
 volumes:
   static:

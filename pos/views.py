@@ -1,8 +1,7 @@
-from pos.models import Product
-from django.contrib import messages
 from django.shortcuts import redirect, render
 from django.shortcuts import render, redirect
-
+from pos.models import Product
+from django.contrib import messages
 
 def dashboard(request):
     context = {}
