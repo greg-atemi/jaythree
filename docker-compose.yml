@@ -1,4 +1,4 @@
-version: '2.20'
+version: '3'
 
 services:
   db:
@@ -11,9 +11,10 @@ services:
       # - POSTGRES_PASSWORD = password
       
     volumes:
-      - /var/lib/docker/volumes/db/_data
-
+      - ./postgres-data:/var/lib/postgresql/data
+       
   django_gunicorn:
+    image: gregatemi/app:latest
     volumes:
       - /var/lib/docker/volumes/vol1/_data
     environment:
@@ -24,7 +25,9 @@ services:
       - "8005:8005"
 
   nginx:
-    build: ./nginx
+    image: gregatemi/nginx_server:latest
+    build:
+      context: .
     volumes:
       - /var/lib/docker/volumes/vol2/_data
     ports:

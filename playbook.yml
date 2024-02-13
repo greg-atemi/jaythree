@@ -1,16 +1,33 @@
----
-- name: Deployment on a cloud instance
-hosts: all
-gather_facts: true
-tasks:
-#installing necessary pakages before installing docker
-- name: Install required system packages
-apt: name={{ item }} state=latest update_cache=yes
-loop: [ 'curl','python3-pip', 'virtualenv', 'python3-setuptools']
-become: true
+- name: Deployment on a GCP cloud instance
+  hosts: all
+  become: true
+  tasks:
+    - name: Install required system packages
+      apt: name={{ item }} state=latest update_cache=yes
+      loop: ['curl','python3-pip', 'virtualenv', 'python3-setuptools']
+      become: true
 
-- name: Add Docker Repository
-apt_repository:
-repo: deb https://download.docker.com/linux/ubuntu bionic stable
-state: present
-become: true
+    - name: Recursively change ownership of a directory
+      file:
+        path: /home/magrega/jaythree
+        state: directory
+        recurse: yes
+        owner: magrega
+      become: true
+
+    - name: Clone Docker Compose repository from Local
+      copy:
+        src: ./docker-compose.yml
+        dest: jaythree/docker-compose.yml
+
+        # git:
+        #   repo: git@github.com:greg-atemi/jaythree.git
+        #   dest: /home/magrega/jaythree
+        #   version: main
+        #   update: yes
+        #   force: yes
+        #   accept_hostkey: yes
+
+    - name: Orchestrate using docker compose
+      # command: docker compose up -d /home/magrega/jaythree/docker-compose.yml
+      command: docker-compose -f /home/magrega/jaythree/docker-compose.yml up -d
