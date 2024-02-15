@@ -1,0 +1,28 @@
+version: 2
+
+# jobs refer to a single execution of the build
+jobs:
+  # build is the name of the job....they can be multiple and unique
+  build:
+    # builds occur in a docker container
+    docker:
+      - image: cimg/python:3.11.4
+    working_directory: ~/repo
+
+    # series/ list of steps done for the build
+    steps:
+      # Step 1: obtain repo from GitHub
+      - checkout
+      # Step 2: create virtual env and install dependencies
+      - run:
+          name: install dependencies
+          command: |
+            python3 -m venv venv
+            . venv/bin/activate
+            pip install --upgrade pip
+            pip install -r requirements.txt
+    # Run the tests for our scripts
+      - run:
+          name: Run tests
+          command: |
+            . venv/bin/activate
