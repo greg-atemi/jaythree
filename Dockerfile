@@ -1,9 +1,9 @@
 FROM python:3.10-alpine
-WORKDIR /jaythree
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
+WORKDIR /jaythree
 COPY requirements.txt /jaythree/
 
 RUN pip install --no-cache-dir --upgrade pip setuptools

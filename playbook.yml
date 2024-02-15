@@ -1,10 +1,10 @@
-- name: Deployment on a GCP cloud instance
+- name: Deployment on a GCP VM instance
   hosts: all
   become: true
   tasks:
     - name: Install required system packages
-      apt: name={{ item }} state=latest update_cache=yes
-      loop: ['curl','python3-pip', 'virtualenv', 'python3-setuptools']
+      apt: name={{ item }} state=latest
+      loop: ['curl','python3-pip','python3.11-venv', 'virtualenv', 'python3-setuptools']
       become: true
 
     - name: Recursively change ownership of a directory
@@ -19,15 +19,11 @@
       copy:
         src: ./docker-compose.yml
         dest: jaythree/docker-compose.yml
+    
+    - name: Orchestrate containers
+      command: docker-compose -f /home/magrega/jaythree/docker-compose.yml build
+      # command: docker-compose build
 
-        # git:
-        #   repo: git@github.com:greg-atemi/jaythree.git
-        #   dest: /home/magrega/jaythree
-        #   version: main
-        #   update: yes
-        #   force: yes
-        #   accept_hostkey: yes
-
-    - name: Orchestrate using docker compose
-      # command: docker compose up -d /home/magrega/jaythree/docker-compose.yml
-      command: docker-compose -f /home/magrega/jaythree/docker-compose.yml up -d
+    - name: Spin up the containers
+      command: docker-compose -f /home/magrega/jaythree/docker-compose.yml up
+      # command: docker-compose up
