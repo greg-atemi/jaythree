@@ -5,11 +5,6 @@ jobs:
   # build is the name of the job....they can be multiple and unique
   build:
     # builds occur in a docker container
-    docker:
-      - image: cimg/python:3.11.4
-      - image: postgres:15
-    working_directory: ~/repo
-
     services:
       - postgres
 
@@ -17,7 +12,13 @@ jobs:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+    
+    docker:
+      - image: cimg/python:3.11.4
+      - image: postgres:15
 
+    working_directory: ~/repo
+    
     # series/ list of steps done for the build
     steps:
       # Step 1: obtain repo from GitHub
