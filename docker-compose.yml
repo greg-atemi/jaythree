@@ -3,37 +3,37 @@ version: '3'
 services:
   db:
     image: postgres:15
-    environment:
-      - POSTGRES_HOST_AUTH_METHOD=trust
-      # - .env_db
-      # - POSTGRES_DB = mydb
-      # - POSTGRES_USER = myuser
-      # - POSTGRES_PASSWORD = password
-      
     volumes:
       - ./postgres-data:/var/lib/postgresql/data
-       
-  django_gunicorn:
-    image: gregatemi/jaythree:latest
     environment:
-      - .env
-    build:
-      context: .
-    ports:
-      - "8005:8005"
-      
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+  
   nginx:
-    image: nginx
+    image: gregatemi/nginx_server:v4
     build:
       context: .
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./default.conf:/etc/nginx/default.conf
       - ./html:/usr/share/nginx/html
     ports:
-      - "85:85"
+      - "80:80"
     depends_on:
-      - django_gunicorn
-      - db
+      - app
 
-volumes:
-  static:
+  app:
+    image: gregatemi/jaythree:v4
+    build:
+      context: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./app:/app
+    environment:
+      - SECRET_KEY=devsecret
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    depends_on:
+      - db

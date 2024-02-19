@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 import os
 from pathlib import Path
-from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,11 +22,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 
 # SECRET_KEY = 'django-insecure-+5o=13c*_5jx1&rw7!u0$s-!&1aev1zj4s-he-q5^0&)iuth^w'
-SECRET_KEY = config("SECRET_KEY")
+# SECRET_KEY = config("SECRET_KEY")
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-# DEBUG = os.getenv('DEBUG')
+# DEBUG = bool(int(os.environ.get('DEBUG', 0)))
 
 ALLOWED_HOSTS = ['*']
 
@@ -41,6 +41,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'pos'
+]
+
+INSTALLED_APPS += ['gunicorn']
+CMD = '/usr/local/bin/gunicorn'
+CMD_ARGS = [
+    '--workers=3',
+    '--bind=0.0.0.0:8000',
+    'jaythree.wsgi:application',
 ]
 
 MIDDLEWARE = [
@@ -73,22 +81,23 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'jaythree.wsgi.application'
-
+# WSGI_APPLICATION = 'gunicorn.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        # 'NAME': "postgres",
-        # 'USER': "postgres",
-        # 'PASSWORD': "postgres",
-        'NAME': config("POSTGRES_DB"),
-        'USER': config("POSTGRES_USER"),
-        'PASSWORD': config("POSTGRES_PASSWORD"),
-        'HOST': "db",
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': "postgres",
+        'USER': "postgres",
+        'HOST' : "db",
+        'PASSWORD': "postgres",
         'PORT': 5432,
+        # 'HOST': os.environ.get("DB_HOST"),
+        # 'NAME': os.environ.get("DB_NAME"),
+        # 'USER': os.environ.get("DB_USER"),
+        # 'PASSWORD': os.environ.get("DB_PASS"),
     }
 }
 

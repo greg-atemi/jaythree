@@ -3,4 +3,4 @@
 python manage.py migrate --no-input
 python manage.py collectstatic --no-input
 
-gunicorn jaythree.wsgi:application --bind 0.0.0.0:8005
+gunicorn jaythree.wsgi:application --bind 0.0.0.0:8000

@@ -20,10 +20,34 @@
         src: ./docker-compose.yml
         dest: jaythree/docker-compose.yml
     
-    - name: Orchestrate containers
-      command: docker-compose -f /home/magrega/jaythree/docker-compose.yml build
-      # command: docker-compose build
+    - name: Pull App Docker image
+      command: docker image pull gregatemi/jaythree:v6
+
+    - name: Pull Nginx Server Docker image
+      command: docker image pull gregatemi/nginx_server:v7
+
+    - name: Pull Postgres Docker image
+      command: docker image pull postgres:15
+    
+    # - name: Pull Docker images
+    #   docker-image:
+    #     name: "{{ image.name }}"
+    #     tag: "{{ image.tag }}"
+    #     state: present
+    #   with_items:
+    #     - { name: "gregatemi/nginx_server", tag: "v3" }
+    #     - { name: "gregatemi/jaythree", tag: "v3" }
+    #     - { name: "postgres", tag: "15" }
+
+    # - name: Clone Dockerfile repository from Local
+    #   copy:
+    #     src: ./Dockerfile
+    #     dest: jaythree/Dockerfile
+    
+    # - name: Orchestrate containers
+    #   command: docker-compose -f /home/magrega/jaythree/docker-compose.yml build -d
+    #   # command: docker-compose build
 
     - name: Spin up the containers
-      command: docker-compose -f /home/magrega/jaythree/docker-compose.yml up
+      command: docker-compose -f /home/magrega/jaythree/docker-compose.yml up -d
       # command: docker-compose up

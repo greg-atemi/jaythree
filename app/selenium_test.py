@@ -6,7 +6,7 @@ from selenium.webdriver.common.keys import Keys
 class AddStockTestCase(LiveServerTestCase):
     def test_add_stock(self):
         selenium = webdriver.Firefox()
-        selenium.get("http://0.0.0.0:8005/pos/stock")
+        selenium.get("http://0.0.0.0:8000/pos/stock")
 
         add_button = selenium.find_element(by=By.CLASS_NAME, value="btn-primary2")
         add_button.click()
@@ -19,12 +19,12 @@ class AddStockTestCase(LiveServerTestCase):
         submit_button.click()
 
         assert 'Product 10' in selenium.page_source
-        selenium.quit()
+        # selenium.quit()
 
 class AddProductTestCase(LiveServerTestCase):
     def test_add_product(self):
         selenium = webdriver.Firefox()
-        selenium.get("http://0.0.0.0:8005/pos/save_product")
+        selenium.get("http://0.0.0.0:8000/pos/save_product")
         
         name_text_box = selenium.find_element(by=By.ID, value="name")
         quantity_text_box = selenium.find_element(by=By.ID, value="quantity")
@@ -46,4 +46,7 @@ class AddProductTestCase(LiveServerTestCase):
         text = message.text
 
         assert 'Product 10' in selenium.page_source
-        selenium.quit()
+        # selenium.quit()
+
+AddProductTestCase.test_add_product(self=1)
+AddStockTestCase.test_add_stock(self=1)
