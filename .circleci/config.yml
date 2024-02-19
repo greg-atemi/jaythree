@@ -21,14 +21,16 @@ jobs:
             . venv/bin/activate
             pip install --upgrade pip
             pip install -r requirements.txt
-      # Set up database (assuming you're using Django's default SQLite)
+      # Set up database
       - run:
           name: Set up database
           command: |
+            . venv/bin/activate
             python3 manage.py migrate
       # Run the tests for our scripts  
       - run:
           name: Run tests
           command: |
             . venv/bin/activate
+            cd add
             python3 manage.py test
