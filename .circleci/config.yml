@@ -7,6 +7,7 @@ jobs:
     # builds occur in a docker container
     docker:
       - image: cimg/python:3.11.4
+      - image: postgres:15
     working_directory: ~/repo
 
     services:
