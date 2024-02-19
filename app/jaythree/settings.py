@@ -95,14 +95,14 @@ DATABASES = {
         'PASSWORD': "postgres",
         'PORT': 5432
     },
-    'test_db': {
+    'test': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3'
     }
 }
 
 TEST = {
-    'NAME': 'test_db'
+    'NAME': BASE_DIR / 'db.sqlite3'
 }
 
 # DATABASES = {
