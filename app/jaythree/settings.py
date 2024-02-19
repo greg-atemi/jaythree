@@ -87,22 +87,18 @@ WSGI_APPLICATION = 'jaythree.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'test': {
+    'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
-    },
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': "postgres",
-        'USER': "postgres",
-        'HOST' : "db",
-        'PASSWORD': "postgres",
-        'PORT': 5432,
-        # 'HOST': os.environ.get("DB_HOST"),
-        # 'NAME': os.environ.get("DB_NAME"),
-        # 'USER': os.environ.get("DB_USER"),
-        # 'PASSWORD': os.environ.get("DB_PASS"),
     }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': "postgres",
+    #     'USER': "postgres",
+    #     'HOST' : "db",
+    #     'PASSWORD': "postgres",
+    #     'PORT': 5432,
+    # }
 }
 
 # DATABASES = {
