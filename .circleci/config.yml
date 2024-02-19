@@ -41,4 +41,5 @@ jobs:
           name: Run tests
           command: |
             . venv/bin/activate
+            cd app
             python3 manage.py test
