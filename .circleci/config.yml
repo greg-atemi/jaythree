@@ -9,6 +9,14 @@ jobs:
       - image: cimg/python:3.11.4
     working_directory: ~/repo
 
+    services:
+      - postgres
+
+    env:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
     # series/ list of steps done for the build
     steps:
       # Step 1: obtain repo from GitHub
