@@ -42,4 +42,4 @@ jobs:
           command: |
             . venv/bin/activate
             cd app
-            DATABASE_URL="sqlite://:memory:" python3 manage.py test
+            python3 manage.py test

@@ -94,15 +94,11 @@ DATABASES = {
         'HOST' : "db",
         'PASSWORD': "postgres",
         'PORT': 5432
+    },
+    'test_database': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3'
     }
-    # 'test_database': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': BASE_DIR / 'db.sqlite3'
-    # }
-}
-
-TEST = {
-    'NAME': 'memory:'
 }
 
 # DATABASES = {
