@@ -26,7 +26,7 @@ jobs:
           name: Set up database
           command: |
             . venv/bin/activate
-            cd add
+            cd app
             python3 manage.py migrate
       # Run the tests for our scripts  
       - run:
