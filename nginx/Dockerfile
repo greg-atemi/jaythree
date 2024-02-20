@@ -1,7 +1,5 @@
-FROM nginx:1.23-alpine
-
-# Removing default nginx.conf
-RUN rm /etc/nginx/conf.d/default.conf
-
-# Copying our nginx.conf
-COPY default.conf /etc/nginx/conf.d/default.conf
+FROM nginx:latest
+WORKDIR /app
+# RUN apt-get update
+RUN pip install -y procps
+RUN mkdir -p ./app/staticfiles

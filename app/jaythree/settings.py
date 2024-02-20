@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 # DEBUG = bool(int(os.environ.get('DEBUG', 0)))
 
 ALLOWED_HOSTS = ['*']
@@ -41,14 +41,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'pos'
-]
-
-INSTALLED_APPS += ['gunicorn']
-CMD = '/usr/local/bin/gunicorn'
-CMD_ARGS = [
-    '--workers=3',
-    '--bind=0.0.0.0:8000',
-    'jaythree.wsgi:application',
 ]
 
 MIDDLEWARE = [
@@ -81,7 +73,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'jaythree.wsgi.application'
-# WSGI_APPLICATION = 'gunicorn.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases

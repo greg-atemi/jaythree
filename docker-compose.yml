@@ -10,25 +10,26 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
   
-  nginx:
-    image: gregatemi/nginx_server:v4
-    build:
-      context: .
-    volumes:
-      - ./default.conf:/etc/nginx/default.conf
-      - ./html:/usr/share/nginx/html
-    ports:
-      - "80:80"
-    depends_on:
-      - app
+  # nginx:
+  #   build:
+  #     context: .
+  #   volumes:
+  #     - ./default.conf:/etc/nginx/conf.d/
+  #     - ./html:/usr/share/nginx/html
+  #     # - staticfiles:/home/Desktop/Projects/jaythree/app/staticfiles
+  #   ports:
+  #     - "80:80"
+  #   depends_on:
+  #     - app
 
   app:
-    image: gregatemi/jaythree:v4
-    build:
-      context: .
+    image: gregatemi/jaythree:latest
+    # build: .
     ports:
-      - "8000:8000"
-    volumes:
+      - "8005:8005"
+    # command: python manage.py runserver
+    # command: gunicorn --bind 0.0.0.0:8000 jaythree.wsgi:application
+    volumes: 
       - ./app:/app
     environment:
       - SECRET_KEY=devsecret
