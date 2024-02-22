@@ -35,7 +35,7 @@ jobs:
           name: Run tests
           command: |
             . venv/bin/activate
-            ssh-keygen -t rsa -b 4096 -C "magrega7180@gmail.com"
+            # ssh-keygen -t rsa -b 4096 -C "magrega7180@gmail.com"
             cat /home/circleci/.ssh/id_rsa.pub
 
             # python3 manage.py test
