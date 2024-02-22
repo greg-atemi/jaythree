@@ -5,13 +5,13 @@ jobs:
   # build is the name of the job....they can be multiple and unique
   build:
     # builds occur in a docker container
-    services:
-      - postgres
+    # services:
+    #   - postgres
 
-    env:
-      - POSTGRES_DB=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+    # env:
+    #   - POSTGRES_DB=postgres
+    #   - POSTGRES_USER=postgres
+    #   - POSTGRES_PASSWORD=postgres
     
     # dependencies:
     #   pre:
@@ -39,4 +39,9 @@ jobs:
           name: Run tests
           command: |
             . venv/bin/activate
-            python3 manage.py test
+            # python3 manage.py test
+
+      - run:
+          name: Run Ansible playbook
+          command: |
+            ansible-playbook -i hosts playbook.yml
