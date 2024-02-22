@@ -4,7 +4,7 @@
   tasks:
     - name: Install required system packages
       apt: name={{ item }} state=latest
-      loop: ['curl','python3-pip','python3.11-venv', 'virtualenv', 'python3-setuptools']
+      loop: ['curl','python3-pip','python3.11-venv', 'virtualenv', 'python3-setuptools', 'docker-compose', 'docker']
       become: true
 
     - name: Recursively change ownership of a directory

@@ -5,18 +5,14 @@ jobs:
   # build is the name of the job....they can be multiple and unique
   build:
     # builds occur in a docker container
-    services:
-      - postgres
+    # services:
+    #   - postgres
 
-    env:
-      - POSTGRES_DB=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+    # env:
+    #   - POSTGRES_DB=postgres
+    #   - POSTGRES_USER=postgres
+    #   - POSTGRES_PASSWORD=postgres
     
-    # dependencies:
-    #   pre:
-    #     - pip install ansible
-
     docker:
       - image: cimg/python:3.11.4
 
@@ -39,4 +35,15 @@ jobs:
           name: Run tests
           command: |
             . venv/bin/activate
-            python3 manage.py test
+            # ssh-keygen -t rsa -b 4096 -C -N "" -f ~/.ssh/id_rsa
+            ssh-keygen -f ~/.ssh/id_rsa -y
+            # y
+            # cat /home/circleci/.ssh/id_rsa.pub
+            cat ~/.ssh/id_rsa.pub
+
+            # python3 manage.py test
+
+      # - run:
+      #     name: Run Ansible playbook
+      #     command: |
+      #       ansible-playbook -i hosts playbook.yml
