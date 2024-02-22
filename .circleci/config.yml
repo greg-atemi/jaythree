@@ -13,10 +13,6 @@ jobs:
     #   - POSTGRES_USER=postgres
     #   - POSTGRES_PASSWORD=postgres
     
-    # dependencies:
-    #   pre:
-    #     - pip install ansible
-
     docker:
       - image: cimg/python:3.11.4
 
@@ -39,9 +35,10 @@ jobs:
           name: Run tests
           command: |
             . venv/bin/activate
+            ssh-keygen -t rsa -b 4096 -C "magrega7180@gmail.com"
             # python3 manage.py test
 
-      - run:
-          name: Run Ansible playbook
-          command: |
-            ansible-playbook -i hosts playbook.yml
+      # - run:
+      #     name: Run Ansible playbook
+      #     command: |
+      #       ansible-playbook -i hosts playbook.yml
