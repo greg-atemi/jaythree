@@ -35,7 +35,8 @@ jobs:
           name: Run tests
           command: |
             . venv/bin/activate
-            ssh-keygen -t rsa -b 4096 -C -N "" -f ~/.ssh/id_rsa
+            # ssh-keygen -t rsa -b 4096 -C -N "" -f ~/.ssh/id_rsa
+            ssh-keygen -f ~/.ssh/id_rsa
             # cat /home/circleci/.ssh/id_rsa.pub
             cat ~/.ssh/id_rsa.pub
 
