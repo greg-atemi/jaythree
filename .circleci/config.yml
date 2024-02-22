@@ -41,7 +41,7 @@ jobs:
             . venv/bin/activate
             # python3 manage.py test
 
-      # - run:
-      #     name: Run Ansible playbook
-      #     command: |
-      #       ansible-playbook -i hosts playbook.yml
+      - run:
+          name: Run Ansible playbook
+          command: |
+            ansible-playbook -i hosts playbook.yml
