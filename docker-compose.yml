@@ -4,33 +4,37 @@ services:
   db:
     image: postgres:15
     environment:
-      # - .env_db
-      - POSTGRES_HOST_AUTH_METHOD=trust
-      # - POSTGRES_DB = mydb
-      # - POSTGRES_USER = myuser
-      # - POSTGRES_PASSWORD = password
+      # - .env
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
       
     volumes:
       - /var/lib/docker/volumes/db/_data
 
-  django_gunicorn:
+  app:
+    image: gregatemi/jaythree:latest
+    # volumes:
+    #   - /var/lib/docker/volumes/vol1/_data
     volumes:
-      - /var/lib/docker/volumes/vol1/_data
+      - ./postgres-data:/var/lib/postgresql/data
     environment:
       - .env
-    build:
-      context: .
+    # build:
+    #   context: .
     ports:
       - "8005:8005"
+    command: runserver 0.0.0.0:8005
 
   nginx:
-    build: ./nginx
+    # build: ./nginx
+    image: gregatemi/nginx_server:v1
     volumes:
       - /var/lib/docker/volumes/vol2/_data
     ports:
       - "85:85"
     depends_on:
-      - django_gunicorn
+      - app
       - db
 
 volumes:

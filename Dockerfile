@@ -12,6 +12,3 @@ RUN pip install --no-cache-dir -r requirements.txt --verbose
 COPY . .
 
 EXPOSE 8005
-
-ENTRYPOINT ["python3", "manage.py"]
-CMD ["runserver", "0.0.0.0:8005"]

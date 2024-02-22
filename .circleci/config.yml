@@ -1,0 +1,42 @@
+version: 2
+
+# jobs refer to a single execution of the build
+jobs:
+  # build is the name of the job....they can be multiple and unique
+  build:
+    # builds occur in a docker container
+    services:
+      - postgres
+
+    env:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    
+    # dependencies:
+    #   pre:
+    #     - pip install ansible
+
+    docker:
+      - image: cimg/python:3.11.4
+
+    working_directory: ~/repo
+    
+    # series/ list of steps done for the build
+    steps:
+      # Step 1: obtain repo from GitHub
+      - checkout
+      # Step 2: create virtual env and install dependencies
+      - run:
+          name: install dependencies
+          command: |
+            pip install ansible
+            python3 -m venv venv
+            . venv/bin/activate
+            pip install --upgrade pip
+            pip install -r requirements.txt 
+      - run:
+          name: Run tests
+          command: |
+            . venv/bin/activate
+            python3 manage.py test

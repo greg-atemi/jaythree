@@ -79,9 +79,6 @@ WSGI_APPLICATION = 'jaythree.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        # 'NAME': "postgres",
-        # 'USER': "postgres",
-        # 'PASSWORD': "postgres",
         'NAME': config("POSTGRES_DB"),
         'USER': config("POSTGRES_USER"),
         'PASSWORD': config("POSTGRES_PASSWORD"),
