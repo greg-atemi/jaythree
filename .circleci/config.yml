@@ -11,7 +11,7 @@ jobs:
       - checkout
       - add_ssh_keys:
           fingerprints:
-          - "SHA256:6uvl2IL+7B3LcbP7X07Zi4WJVHM+TeQQ208i66OwXZU"
+          - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCkrnXXu6vUuaoOklufajBnTTvosxzH5wwdDsfz/TPWutDBArYsMfyhU1V8dasMvgUBsJbHLrHzL82/F+Z+JV4dozd4w0UOEXchOaY7spP3fFm4v+rNMLvgSIHe/ogXRKoJxV3SQEJ6CdWE/jTLzbcLw0mBt3/YIspt6UH3/+HUSrd3pEPh/ZGyidzYMM5pD37cm60go8xji3IvmpbVMvKcJkaTMAu+K5BCuYoi//Zd04bUgWRG002XOeeia4UZHbz20IWJTnvfrqC00nF8e+tGyc55AC4a+MUPI61PNekxxn1OKV24ihRp/74/Tb2FbJ3j/yykFTULnAP2Eqi3JHgx4kNtrvjy9N7HoqGGC9LlcMkce6YzBWHjy0wWtKnDo3dDRv8LB8fDUhHUPT3aZkqwuscDx+w+CPSix2SOp4L1eL67wWJX/dNAQRrPrQKlcDHTbLAs3cBgGHeHnyu87sdaIodSvgwRxI1W+/J84TTcbWTg6zpLIM35Fbn3g4Z8hgE= magrega@jaythree-vm.europe-west1-c.c.jaythree-deplyment.internal"
       - run:
           name: install dependencies
           command: |
