@@ -1,28 +1,17 @@
 version: 2
 
-# jobs refer to a single execution of the build
 jobs:
-  # build is the name of the job....they can be multiple and unique
   build:
-    # builds occur in a docker container
-    # services:
-    #   - postgres
-
-    # env:
-    #   - POSTGRES_DB=postgres
-    #   - POSTGRES_USER=postgres
-    #   - POSTGRES_PASSWORD=postgres
-    
     docker:
       - image: cimg/python:3.11.4
 
     working_directory: ~/repo
     
-    # series/ list of steps done for the build
     steps:
-      # Step 1: obtain repo from GitHub
       - checkout
-      # Step 2: create virtual env and install dependencies
+      - add_ssh_keys:
+          fingerprints:
+          - "SHA256:6uvl2IL+7B3LcbP7X07Zi4WJVHM+TeQQ208i66OwXZU"
       - run:
           name: install dependencies
           command: |
@@ -31,19 +20,8 @@ jobs:
             . venv/bin/activate
             pip install --upgrade pip
             pip install -r requirements.txt 
+      
       - run:
-          name: Run tests
+          name: Run Ansible playbook
           command: |
-            . venv/bin/activate
-            # ssh-keygen -t rsa -b 4096 -C -N "" -f ~/.ssh/id_rsa
-            ssh-keygen -f ~/.ssh/id_rsa -y
-            # y
-            # cat /home/circleci/.ssh/id_rsa.pub
-            cat ~/.ssh/id_rsa.pub
-
-            # python3 manage.py test
-
-      # - run:
-      #     name: Run Ansible playbook
-      #     command: |
-      #       ansible-playbook -i hosts playbook.yml
+            ansible-playbook -i hosts playbook.yml
