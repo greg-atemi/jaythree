@@ -1,4 +1,5 @@
-version: 2
+version: 2.1
+
 executors:
   docker-publisher:
     environment:
@@ -66,7 +67,6 @@ jobs:
           ansible-playbook -i hosts playbook.yml
 
 workflows:
-  version: 2
   build-main:
     jobs:
 
