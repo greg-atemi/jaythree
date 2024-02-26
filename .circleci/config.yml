@@ -9,7 +9,6 @@ executors:
 jobs:
   build:
     executor: docker-publisher
-    working_directory: ~/repo
     steps:
     - checkout
     - setup_remote_docker:
