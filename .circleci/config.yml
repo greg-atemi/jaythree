@@ -64,3 +64,31 @@ jobs:
         name: Run Ansible playbook
         command: |
           ansible-playbook -i hosts playbook.yml
+
+workflows:
+  version: 2
+  build-main:
+    jobs:
+
+    - build:
+        filters:
+          branches:
+            only:
+            - main
+            - dev
+    - publish-latest:
+        requires:
+        - build
+        filters:
+          branches:
+            only:
+            - main
+            - dev
+    - deploy:
+        requires:
+        - publish-latest
+        filters:
+          branches:
+            only:
+            - main
+            - dev
