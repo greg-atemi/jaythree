@@ -1,28 +1,67 @@
 version: 2
-
-jobs:
-  build:
+executors:
+  docker-publisher:
+    environment:
+      IMAGE_NAME: gregatemi/jaythree
     docker:
       - image: cimg/python:3.11.4
 
+jobs:
+  build:
+    executor: docker-publisher
     working_directory: ~/repo
-    
     steps:
-      - checkout
-      - add_ssh_keys:
-          fingerprints:
-          - SHA256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
-          - SHA256:M7FpMbicOgtnL8az8N15o3bogqbrCCGpBN4Dcg2loJ8
+    - checkout
+    - setup_remote_docker:
+        docker_layer_caching: true
+    - run:
+        name: Build Docker Image
+        command: |
+          docker build -t $IMAGE_NAME:latest .
+    - run:
+        name: Archive Docker Image
+        command: docker save -o image.tar $IMAGE_NAME
+    - persist_to_workspace:
+        root: .
+        paths:
+        - ./image.tar
+
+  publish-latest:
+      executor: docker-publisher
+      steps:
+      - attach_workspace:
+          at: /tmp/workspace
+      - setup_remote_docker:
+          docker_layer_caching: true
       - run:
-          name: install dependencies
-          command: |
-            pip install ansible
-            python3 -m venv venv
-            . venv/bin/activate
-            pip install --upgrade pip
-            pip install -r requirements.txt 
-      
+          name: Load archived Docker
+          command: docker load -i /tmp/workspace/image.tar
       - run:
-          name: Run Ansible playbook
+          name: Publish Docker Image to Docker Hub
           command: |
-            ansible-playbook -i hosts playbook.yml
+            echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+            IMAGE_TAG="2.1.${CIRCLE_BUILD_NUM}" # 2.1.X where X is the build number
+            docker tag $IMAGE_NAME:latest $IMAGE_NAME:$IMAGE_TAG
+            docker push $IMAGE_NAME:latest
+            docker push $IMAGE_NAME:$IMAGE_TAG
+
+  deploy:
+    docker:
+    - image: python:3.8
+    steps:
+    - add_ssh_keys:
+        fingerprints:
+        - SHA256:M7FpMbicOgtnL8az8N15o3bogqbrCCGpBN4Dcg2loJ8
+    - run:
+        name: install dependencies
+        command: |
+          pip install ansible
+          python3 -m venv venv
+          . venv/bin/activate
+          pip install --upgrade pip
+          pip install -r requirements.txt 
+    
+    - run:
+        name: Run Ansible playbook
+        command: |
+          ansible-playbook -i hosts playbook.yml
