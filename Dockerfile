@@ -4,7 +4,7 @@ WORKDIR /jaythree
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-COPY requirements.txt /jaythree/
+COPY requirements.txt /jaythree
 
 RUN pip install --no-cache-dir --upgrade pip setuptools
 RUN pip install --no-cache-dir -r requirements.txt --verbose
