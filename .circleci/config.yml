@@ -26,7 +26,7 @@ jobs:
         paths:
         - ./image.tar
 
-  publish-latest:
+  publish:
       executor: docker-publisher
       steps:
       - attach_workspace:
@@ -70,26 +70,22 @@ jobs:
 workflows:
   build-main:
     jobs:
-
     - build:
         filters:
           branches:
             only:
             - main
-            - dev
-    - publish-latest:
+    - publish:
         requires:
         - build
         filters:
           branches:
             only:
             - main
-            - dev
     - deploy:
         requires:
-        - publish-latest
+        - publish
         filters:
           branches:
             only:
             - main
-            - dev
