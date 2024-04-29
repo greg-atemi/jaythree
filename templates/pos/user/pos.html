@@ -1,0 +1,93 @@
+{% extends 'pos/user/base.html' %}
+{% load static %}
+
+{% block title_block %}
+    <title>Stock</title>
+{% endblock %}
+
+{% block body_block %}
+    <main>
+        {% for message in messages %}
+            <div class="message">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        <button id="new_product" class="btn-primary">
+            <img alt="home" src="{% static 'images/plus.svg' %}"/>
+            ADD NEW PRODUCT
+        </button>
+
+        <table class="product">
+            <thead>
+                <tr>
+                    <th>PRODUCT ID</th>
+                    <th>PRODUCT NAME</th>
+                    <th>QUANTITY</th>
+                    <th>ACTION</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                <tr>
+                    <td>{{ product.product_id }}</td>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.quantity }}</td>
+                    <td class="button-cell">
+                        <a class="btn-primary2" href="{% url 'pos:add_stock' product.product_id %}">
+                            ADD
+                        </a>
+                        <a class="btn-secondary2" href="{% url 'pos:remove_stock' product.product_id %}">
+                            REMOVE
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% block content_block %}
+        <div id="modal" class="modal">
+            <div class="modal-content">
+                <p>ADD NEW PRODUCT</p>
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <div class="fieldWrapper">
+                        <label for="name">Name</label>
+                        <input class="input" type="text" name="name" id="name" required>
+                    </div>
+
+                    <div class="fieldWrapper">
+                        <label for="quantity">Quantity</label>
+                        <input class="input" type="number" name="quantity" id="quantity" required>
+                    </div>
+
+                    <div class="fieldWrapper">
+                        <label for="price">Price in Kshs</label>
+                        <input class="input" type="number" name="price" id="price" required>
+                    </div>
+
+                    <div class="fieldWrapper">
+                        <label for="description">Description</label>
+                        <textarea class="input" name="description" id="description"></textarea>
+                    </div>
+
+                    <div class="button-group">
+                        <input class="btn-primary" type="submit" value="SAVE"/>
+                        <button id="cancel" class="btn-secondary">
+                            CANCEL
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {% endblock %}
+    </main>
+
+    {% block script_block %}
+    <script type="text/javascript">
+        
+    </script>
+    {% endblock %}
+
+{% endblock %}

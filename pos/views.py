@@ -143,3 +143,7 @@ def remove_stock(request, product_id):
             'quantity'] + ") Reduced Successfully. \n ")
         return redirect('pos:stock')
     return render(request, 'pos/user/remove_stock.html', context)
+
+def pos(request):
+    context = {}
+    return render(request, 'pos/user/pos.html', context)
