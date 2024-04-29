@@ -56,6 +56,7 @@ jobs:
     - run:
         name: install dependencies
         command: |
+          sudo dnf install sshpass
           pip install ansible
           python3 -m venv venv
           . venv/bin/activate
