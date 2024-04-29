@@ -81,7 +81,7 @@ DATABASES = {
         'NAME': "jaydb",
         'USER': "jaydb",
         'PASSWORD': "jaydb",
-        'HOST': "sandbox",
+        'HOST': "localhost",
         'PORT': 5432,
     }
 }
