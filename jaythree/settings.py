@@ -81,7 +81,7 @@ DATABASES = {
         'NAME': "jaydb",
         'USER': "jaydb",
         'PASSWORD': "jaydb",
-        'HOST': "localhost",
+        'HOST': "postgresql",
         'PORT': 5432,
     }
 }
