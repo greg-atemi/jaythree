@@ -144,6 +144,10 @@ def remove_stock(request, product_id):
         return redirect('pos:stock')
     return render(request, 'pos/user/remove_stock.html', context)
 
+def create_report(request):
+    context = {}
+    return render(request, 'pos/user/remove_stock.html', context)
+
 def pos(request):
     context = {}
     return render(request, 'pos/user/pos.html', context)

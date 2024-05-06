@@ -12,81 +12,100 @@
                 {{ message }}
             </div>
         {% endfor %}
-
-        <button id="new_product" class="btn-primary">
-            <img alt="home" src="{% static 'images/plus.svg' %}"/>
-            ADD NEW PRODUCT
-        </button>
-
-        <table class="product">
-            <thead>
-                <tr>
-                    <th>PRODUCT ID</th>
-                    <th>PRODUCT NAME</th>
-                    <th>QUANTITY</th>
-                    <th>ACTION</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for product in products %}
-                <tr>
-                    <td>{{ product.product_id }}</td>
-                    <td>{{ product.name }}</td>
-                    <td>{{ product.quantity }}</td>
-                    <td class="button-cell">
-                        <a class="btn-primary2" href="{% url 'pos:add_stock' product.product_id %}">
-                            ADD
-                        </a>
-                        <a class="btn-secondary2" href="{% url 'pos:remove_stock' product.product_id %}">
-                            REMOVE
-                        </a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-
-        {% block content_block %}
-        <div id="modal" class="modal">
-            <div class="modal-content">
-                <p>ADD NEW PRODUCT</p>
-                <form action="" method="post">
-                    {% csrf_token %}
-                    <div class="fieldWrapper">
-                        <label for="name">Name</label>
-                        <input class="input" type="text" name="name" id="name" required>
+        
+        <div class="pos">
+            <div class="pos-west">
+                <div class="pos-top">
+                    <div class="pos-top-left">
+                        <select class="input">
+                            <option>Select Option</option>
+                            <option>option 1</option>
+                            <option>option 2</option>
+                            <option>option 3</option>
+                        </select>
+                        <input class="input2" type="number">
                     </div>
-
-                    <div class="fieldWrapper">
-                        <label for="quantity">Quantity</label>
-                        <input class="input" type="number" name="quantity" id="quantity" required>
-                    </div>
-
-                    <div class="fieldWrapper">
-                        <label for="price">Price in Kshs</label>
-                        <input class="input" type="number" name="price" id="price" required>
-                    </div>
-
-                    <div class="fieldWrapper">
-                        <label for="description">Description</label>
-                        <textarea class="input" name="description" id="description"></textarea>
-                    </div>
-
-                    <div class="button-group">
-                        <input class="btn-primary" type="submit" value="SAVE"/>
-                        <button id="cancel" class="btn-secondary">
-                            CANCEL
+                    <div class="pos-topright">
+                        <button id="add_item" class="btn-primary">
+                            <img alt="home" src="{% static 'images/plus.svg' %}"/>
+                            ADD ITEM
                         </button>
                     </div>
-                </form>
+                </div>
+                <div class="pos-bottom">
+                    <table class="product">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>QUANTITY</th>
+                                <th>PRODUCT NAME</th>
+                                <th>PRICE</th>
+                                <th>TOTAL</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <img alt="X" src="{% static 'images/cross.svg' %}"/>
+                                </td>
+                                <td>2</td>
+                                <td>Hennesey Vela 1l</td>
+                                <td>15000</td>
+                                <td>30000</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <img alt="X" src="{% static 'images/cross.svg' %}"/>
+                                </td>
+                                <td>2</td>
+                                <td>Hennesey Vela 1l</td>
+                                <td>15000</td>
+                                <td>30000</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <img alt="X" src="{% static 'images/cross.svg' %}"/>
+                                </td>
+                                <td>2</td>
+                                <td>Hennesey Vela 1l</td>
+                                <td>15000</td>
+                                <td>30000</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
+            <div class="pos-east">
+                <div class="total">
+                    <div class="content">GRAND TOTAL</div>
+                    <div class="grand-total">Kshs. 90000</div>
+                    <input class="btn-primary" type="submit" value="CHECKOUT">
+                </div>
+            </div>  
         </div>
-        {% endblock %}
+
     </main>
 
     {% block script_block %}
     <script type="text/javascript">
-        
+        let modal = document.getElementById("modal");
+        let btn_new = document.getElementById("new_product");
+        let cancel = document.getElementById("cancel");
+        let edit = document.getElementById("edit");
+
+        btn_new.onclick = function () {
+            location.href = "/pos/products";
+        }
+
+        cancel.onclick = function () {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
+        }
     </script>
     {% endblock %}
 

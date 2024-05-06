@@ -1,13 +1,17 @@
-- name: Deployment on a GCP VM instance
+- name: Deployment on an ON PREMISE VM instance
   hosts: all
   become: true
+  become_method: sudo
+  vars:
+    ansible_become_pass: "Gatemi"
   tasks:
     - name: Install required system packages
-      apt:
+      dnf:
         name: "{{ item }}"
         state: latest
         update_cache: yes
       loop:
+        - sshpass
         - curl
         - python3-pip
         - python3.11-venv
@@ -19,10 +23,10 @@
 
     - name: Recursively change ownership of a directory
       file:
-        path: /home/magrega/jaythree
+        path: /home/sandbox/jaythree
         state: directory
         recurse: yes
-        owner: magrega
+        owner: sandbox
       become: true
 
     - name: Clone Docker Compose repository from Local
@@ -31,7 +35,7 @@
         dest: jaythree/docker-compose.yml
     
     - name: Orchestrate containers
-      command: docker-compose -f /home/magrega/jaythree/docker-compose.yml build -d
+      command: docker-compose -f /home/sandbox/jaythree/docker-compose.yml build -d
 
     - name: Spin up the containers
-      command: docker-compose -f /home/magrega/jaythree/docker-compose.yml up -d
+      command: docker-compose -f /home/sandbox/jaythree/docker-compose.yml up -d
