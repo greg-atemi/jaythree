@@ -1,0 +1,112 @@
+{% extends 'pos/user/base.html' %}
+{% load static %}
+
+{% block title_block %}
+    <title>Stock</title>
+{% endblock %}
+
+{% block body_block %}
+    <main>
+        {% for message in messages %}
+            <div class="message">
+                {{ message }}
+            </div>
+        {% endfor %}
+        
+        <div class="pos">
+            <div class="pos-west">
+                <div class="pos-top">
+                    <div class="pos-top-left">
+                        <select class="input">
+                            <option>Select Option</option>
+                            <option>option 1</option>
+                            <option>option 2</option>
+                            <option>option 3</option>
+                        </select>
+                        <input class="input2" type="number">
+                    </div>
+                    <div class="pos-topright">
+                        <button id="add_item" class="btn-primary">
+                            <img alt="home" src="{% static 'images/plus.svg' %}"/>
+                            ADD ITEM
+                        </button>
+                    </div>
+                </div>
+                <div class="pos-bottom">
+                    <table class="product">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>QUANTITY</th>
+                                <th>PRODUCT NAME</th>
+                                <th>PRICE</th>
+                                <th>TOTAL</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <img alt="X" src="{% static 'images/cross.svg' %}"/>
+                                </td>
+                                <td>2</td>
+                                <td>Hennesey Vela 1l</td>
+                                <td>15000</td>
+                                <td>30000</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <img alt="X" src="{% static 'images/cross.svg' %}"/>
+                                </td>
+                                <td>2</td>
+                                <td>Hennesey Vela 1l</td>
+                                <td>15000</td>
+                                <td>30000</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <img alt="X" src="{% static 'images/cross.svg' %}"/>
+                                </td>
+                                <td>2</td>
+                                <td>Hennesey Vela 1l</td>
+                                <td>15000</td>
+                                <td>30000</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="pos-east">
+                <div class="total">
+                    <div class="content">GRAND TOTAL</div>
+                    <div class="grand-total">Kshs. 90000</div>
+                    <input class="btn-primary" type="submit" value="CHECKOUT">
+                </div>
+            </div>  
+        </div>
+
+    </main>
+
+    {% block script_block %}
+    <script type="text/javascript">
+        let modal = document.getElementById("modal");
+        let btn_new = document.getElementById("new_product");
+        let cancel = document.getElementById("cancel");
+        let edit = document.getElementById("edit");
+
+        btn_new.onclick = function () {
+            location.href = "/pos/products";
+        }
+
+        cancel.onclick = function () {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+    {% endblock %}
+
+{% endblock %}
