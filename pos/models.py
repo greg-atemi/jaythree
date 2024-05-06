@@ -27,8 +27,12 @@ class Sale(models.Model):
 
 
 class SaleItems(models.Model):
+    saleItem_id = models.SmallAutoField(primary_key=True)
     sale_id = models.ForeignKey(Sale, on_delete=models.CASCADE)
     product_id = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=0)
     price = models.IntegerField(default=0)
     total = models.IntegerField(default=0)
+
+    def __str__(self):
+        return f"{self.saleItem_id}"
