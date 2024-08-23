@@ -11,4 +11,4 @@ RUN pip install --no-cache-dir -r requirements.txt --verbose
 
 COPY . .
 
-EXPOSE 8005
+EXPOSE 8000
