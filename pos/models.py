@@ -27,7 +27,7 @@ class Sale(models.Model):
 
 
 class SaleItems(models.Model):
-    saleItem_id = models.SmallAutoField(primary_key=True)
+    saleItem_id = models.AutoField(primary_key=True)
     sale_id = models.ForeignKey(Sale, on_delete=models.CASCADE)
     product_id = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=0)

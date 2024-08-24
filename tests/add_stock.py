@@ -3,7 +3,7 @@ from selenium.webdriver.common.by import By
 
 driver = webdriver.Firefox()
 
-driver.get("http://35.241.207.130:8005/pos/stock")
+driver.get("http://35.241.207.130:8000/pos/stock")
 
 driver.implicitly_wait(0.5)
 
