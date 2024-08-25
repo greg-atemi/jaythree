@@ -172,7 +172,7 @@ table{
     border: 1px solid #B7B9BC;
     border-collapse: collapse;
     border-radius: 12px;
-    margin-top: 36px;
+    margin-top: 24px;
 }
 
 thead{
@@ -187,9 +187,18 @@ thead th{
     font-size: 14px;
     background-color: #F9FAFB;
 }
+
+tfoot th{
+    padding: 12px 24px;
+    font-family: Inter, sans-serif;
+    font-size: 16px;
+    background-color: #F9FAFB;
+}
+
 tbody tr{
     border-bottom: 1px solid #ced0d4;
 }
+
 td{
     font-family: Inter, sans-serif;
     padding: 12px 32px;
@@ -245,17 +254,8 @@ td .icon{
     justify-content: space-between;
 }
 
-.pos-top{
-    display: flex;
-    justify-content: space-between;
-}
-
-.pos-top-left{
-    
-}
-
 .pos-top-right{
-    
+    margin-top: 12px;
 }
 
 .pos-east{
@@ -290,7 +290,7 @@ td .icon{
 }
 
 .pos .pos-west .pos-top .pos-top-left .input2{
-    width: 48px;
+    width: 20%;
     border-radius: 8px;
     border: 1px solid #bcc0c5;
     padding: 8px 12px;
@@ -319,4 +319,11 @@ td .icon{
     color: #FFFFFF;
     font-size: 14px;
     font-family: Inter, sans-serif;
+}
+
+.remove-button{
+    background: none;
+    border: none;
+    outline: none;
+    cursor: pointer; 
 }

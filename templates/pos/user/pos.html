@@ -20,14 +20,14 @@
                         {% csrf_token %}
                         <div class="pos-top-left">
                             <select id="product_id" name="product_id" class="input">
-                                <option value="">Select a product</option>
+                                <option value="">--Select a product--</option>
                                 {% for product in products %}
                                     <option value="{{ product.product_id }}">{{ product.name }}</option>
                                 {% endfor %}
                             </select>
-                            <input type="number" id="quantity" name="quantity" class="input2" min="1" required>
+                            <input placeholder="Quantity" type="number" id="quantity" name="quantity" class="input2" min="1" required>
                         </div>
-                        <div class="pos-topright">
+                        <div class="pos-top-right">
                             <button type="submit" id="add_item" class="btn-primary">
                                 <img alt="home" src="{% static 'images/plus.svg' %}"/>
                                 ADD ITEM
@@ -51,7 +51,13 @@
                             {% for item in sale_items %}
                             <tr>
                                 <td>
-                                    <img alt="X" src="{% static 'images/cross.svg' %}"/>
+                                    <form method="post" action="{% url 'pos:remove_item' %}">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="product_id" value="{{ item.product_id }}">
+                                        <button type="submit" class="remove-button">
+                                            <img alt="x" src="{% static 'images/cross.svg' %}"/>
+                                        </button>
+                                    </form>
                                 </td>
                                 <td>{{ item.product_name }}</td>
                                 <td>{{ item.quantity }}</td>
@@ -62,7 +68,7 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                                <th colspan="3">Total</th>
+                                <th colspan="4"></th>
                                 <th>{{ total_sale_amount }}</th>
                             </tr>
                         </tfoot>
@@ -70,18 +76,17 @@
                 </div>
             </div>
             <div class="pos-east">
-                <div class="total">
-                    {% if sale_items %}
+                {% if sale_items %}
+                    <div class="total">
                         <form method="post" action="{% url 'pos:checkout' %}">
                             {% csrf_token %}
                             <div class="content">GRAND TOTAL</div>
                             <div class="grand-total">Kshs. {{ total_sale_amount }}</div>
                             <button type="submit" class="btn-primary">Checkout</button>
                         </form>
-                    {% endif %}
-                </div>
-            </div>  
-        </div>
+                {% endif %}
+            </div>
+        </div>  
 
     </main>
 
