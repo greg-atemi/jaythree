@@ -86,6 +86,38 @@
                         </form>
                 {% endif %}
             </div>
+        </div>
+        <div class="checkout">
+            <!-- <div id="modal" class="modal"> -->
+            <div>
+                <div class="modal-content">
+                    <p>CHECKOUT</p>
+                    <form action="{% url 'pos:checkout' %}" method="post">
+                        {% csrf_token %}
+                        <div class="fieldWrapper">
+                            <label for="totalAmount">Total Amount</label>
+                            <input class="input" type="number" name="totalAmount" id="totalAmount" value="{{total_sale_amount}}" readonly>
+                        </div>
+                        
+                        <div class="fieldWrapper">
+                            <label for="amountPaid">Amount Paid</label>
+                            <input class="input" type="number" name="amountPaid" id="amountPaid" required>
+                        </div>
+
+                        <div class="fieldWrapper">
+                            <label for="balance">Balance</label>
+                            <input class="input" type="number" name="balance" id="balance" readonly>
+                        </div>
+    
+                        <div class="button-group">
+                            <input class="btn-primary" type="submit" value="SAVE"/>
+                            <button id="cancel" class="btn-secondary">
+                                CANCEL
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>  
 
     </main>
@@ -97,19 +129,26 @@
         let cancel = document.getElementById("cancel");
         let edit = document.getElementById("edit");
 
-        btn_new.onclick = function () {
-            location.href = "/pos/products";
-        }
+        // btn_new.onclick = function () {
+        //     location.href = "/pos/products";
+        // };
 
         cancel.onclick = function () {
             modal.style.display = "none";
-        }
+        };
 
         window.onclick = function(event) {
             if (event.target === modal) {
                 modal.style.display = "none";
             }
-        }
+        };
+
+        document.getElementById('amountPaid').addEventListener('input', function() {
+            const totalAmount = parseFloat(document.getElementById('totalAmount').value) || 0;
+            const amountPaid = parseFloat(this.value) || 0;
+            const balance = amountPaid - totalAmount;
+            document.getElementById('balance').value = balance.toFixed(0);
+        });
     </script>
     {% endblock %}
 

@@ -190,7 +190,13 @@ def pos(request):
     # Get all products to display in the dropdown
     products = Product.objects.all()
 
-    return render(request, 'pos/user/pos.html', {'products': products, 'sale_items': sale_items, 'total_sale_amount': total_sale_amount})
+    context = {
+        'products': products,
+        'sale_items': sale_items,
+        'total_sale_amount': total_sale_amount
+    }
+
+    return render(request, 'pos/user/pos.html', context)
 
 def remove_item(request):
     if request.method == 'POST':
@@ -214,8 +220,8 @@ def checkout(request):
     if 'sale_items' in request.session and request.session['sale_items']:
         sale_items = request.session['sale_items']
         total_sale_amount = sum(item['total'] for item in sale_items)
-        tendered_amount = 10
-        balance = 10
+        tendered_amount = request.POST['amountPaid']
+        balance = request.POST['balance']
 
         # Create a new sale
         sale = Sale.objects.create(
@@ -243,4 +249,6 @@ def checkout(request):
         # return redirect('sale_success')  # Redirect to a success page or another view
         print("Sale successful!!")
 
-    return HttpResponse("No items in sale", status=400)
+    # return HttpResponse("No items in sale", status=400)
+    # return redirect('pos:checkout')
+    return render(request, 'pos/user/checkout.html')
