@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title_block %}
-    <title>Stock</title>
+    <title>Point of Sale</title>
 {% endblock %}
 
 {% block body_block %}
@@ -16,73 +16,77 @@
         <div class="pos">
             <div class="pos-west">
                 <div class="pos-top">
-                    <div class="pos-top-left">
-                        <select class="input">
-                            <option>Select Option</option>
-                            <option>option 1</option>
-                            <option>option 2</option>
-                            <option>option 3</option>
-                        </select>
-                        <input class="input2" type="number">
-                    </div>
-                    <div class="pos-topright">
-                        <button id="add_item" class="btn-primary">
-                            <img alt="home" src="{% static 'images/plus.svg' %}"/>
-                            ADD ITEM
-                        </button>
-                    </div>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="pos-top-left">
+                            <select id="product_id" name="product_id" class="input">
+                                <option value="">--Select a product--</option>
+                                {% for product in products %}
+                                    <option value="{{ product.product_id }}">{{ product.name }}</option>
+                                {% endfor %}
+                            </select>
+                            <input placeholder="Quantity" type="number" id="quantity" name="quantity" class="input2" min="1" required>
+                        </div>
+                        <div class="pos-top-right">
+                            <button type="submit" id="add_item" class="btn-primary">
+                                <img alt="home" src="{% static 'images/plus.svg' %}"/>
+                                ADD ITEM
+                            </button>
+                        </div>
+                    </form>
                 </div>
+
                 <div class="pos-bottom">
                     <table class="product">
                         <thead>
                             <tr>
                                 <th></th>
-                                <th>QUANTITY</th>
                                 <th>PRODUCT NAME</th>
+                                <th>QUANTITY</th>
                                 <th>PRICE</th>
                                 <th>TOTAL</th>
                             </tr>
                         </thead>
                         <tbody>
+                            {% for item in sale_items %}
                             <tr>
                                 <td>
-                                    <img alt="X" src="{% static 'images/cross.svg' %}"/>
+                                    <form method="post" action="{% url 'pos:remove_item' %}">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="product_id" value="{{ item.product_id }}">
+                                        <button type="submit" class="remove-button">
+                                            <img alt="x" src="{% static 'images/cross.svg' %}"/>
+                                        </button>
+                                    </form>
                                 </td>
-                                <td>2</td>
-                                <td>Hennesey Vela 1l</td>
-                                <td>15000</td>
-                                <td>30000</td>
+                                <td>{{ item.product_name }}</td>
+                                <td>{{ item.quantity }}</td>
+                                <td>{{ item.price }}</td>
+                                <td>{{ item.total }}</td>
                             </tr>
-                            <tr>
-                                <td>
-                                    <img alt="X" src="{% static 'images/cross.svg' %}"/>
-                                </td>
-                                <td>2</td>
-                                <td>Hennesey Vela 1l</td>
-                                <td>15000</td>
-                                <td>30000</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <img alt="X" src="{% static 'images/cross.svg' %}"/>
-                                </td>
-                                <td>2</td>
-                                <td>Hennesey Vela 1l</td>
-                                <td>15000</td>
-                                <td>30000</td>
-                            </tr>
+                            {% endfor %}
                         </tbody>
+                        <tfoot>
+                            <tr>
+                                <th colspan="4"></th>
+                                <th>{{ total_sale_amount }}</th>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
             </div>
             <div class="pos-east">
-                <div class="total">
-                    <div class="content">GRAND TOTAL</div>
-                    <div class="grand-total">Kshs. 90000</div>
-                    <input class="btn-primary" type="submit" value="CHECKOUT">
-                </div>
-            </div>  
-        </div>
+                {% if sale_items %}
+                    <div class="total">
+                        <form method="post" action="{% url 'pos:checkout' %}">
+                            {% csrf_token %}
+                            <div class="content">GRAND TOTAL</div>
+                            <div class="grand-total">Kshs. {{ total_sale_amount }}</div>
+                            <button type="submit" class="btn-primary">Checkout</button>
+                        </form>
+                {% endif %}
+            </div>
+        </div>  
 
     </main>
 
