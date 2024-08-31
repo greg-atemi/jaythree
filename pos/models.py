@@ -20,7 +20,8 @@ class Sale(models.Model):
     time = models.TimeField()
     total = models.IntegerField(default=0)
     tendered_amount = models.IntegerField(default=0)
-    customer_name = models.CharField(max_length=200, blank=True)
+    balance = models.IntegerField(default=0)
+    #customer_name = models.CharField(max_length=200, blank=True)
 
     def __str__(self):
         return self.code

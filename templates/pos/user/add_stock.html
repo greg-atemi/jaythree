@@ -18,7 +18,7 @@
 
                     <div class="fieldWrapper">
                         <label for="amount_added">Amount Added</label>
-                        <input class="input" type="number" name="quantity" id="amount_added" min="0" required>
+                        <input class="input" type="number" name="quantity" id="amount_added" min="1" required>
                     </div>
 
                     <div class="button-group">
@@ -48,12 +48,12 @@
 
         window.onclick = function(event) {
             if (event.target === modal) {
-                location.href = "/pos/products";
+                location.href = "/pos/stock";
             }
         }
 
         product.onclick = function () {
-            location.href = "/pos/products";
+            location.href = "/pos/stock";
         };
     </script>
 {% endblock %}
