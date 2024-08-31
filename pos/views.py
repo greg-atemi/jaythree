@@ -214,13 +214,17 @@ def checkout(request):
     if 'sale_items' in request.session and request.session['sale_items']:
         sale_items = request.session['sale_items']
         total_sale_amount = sum(item['total'] for item in sale_items)
+        tendered_amount = 10
+        balance = 10
 
         # Create a new sale
         sale = Sale.objects.create(
             code=f"SALE-{timezone.now().strftime('%Y%m%d%H%M%S')}",
             date=timezone.now(),
             time=timezone.now(),
-            total=total_sale_amount
+            total=total_sale_amount,
+            tendered_amount=tendered_amount,
+            balance=balance
         )
 
         # Save each sale item to the database
