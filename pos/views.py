@@ -277,13 +277,23 @@ def pos(request):
                 # Check if the product is already in the cart
                 item_exists = False
                 for item in sale_items:
-                    if item['product_id'] == int(product_id):
-                        item['quantity'] += quantity
-                        item['total'] = item['quantity'] * item['price']
-                        item_exists = True
-                        break
+                    print(f'Checking item in session: {item}')
+                    if item['product_id'] == product_id:
+                        print(f'Found duplicate item with product ID: {product_id}')
+                        total_quantity = item['quantity'] + quantity
+
+                        if total_quantity <= product.quantity:
+                            item['quantity'] += quantity
+                            item['total'] = item['quantity'] * item['price']
+                            item_exists = True
+                            break
+                        else:
+                            item_exists = True
+                            print("Not enough stock!!")
+                            break
                 
                 if not item_exists:
+                    print(f'Adding new item to session: Product ID: {product_id}, Name: {product.name}, Quantity: {quantity}')
                     sale_items.append({
                         'product_id': product_id,
                         'product_name': product.name,
@@ -292,13 +302,25 @@ def pos(request):
                         'total': quantity * product.unit_price
                     })
 
-                print("here")
+                print(f'Sale items in session before update: {sale_items}')
                 request.session['sale_items'] = sale_items
+                print(f'Sale items in session after update: {sale_items}')
+                print("---------------------------------------------------")
+                print("---------------------------------------------------")
+                print("---------------------------------------------------")
+                print("---------------------------------------------------")
+                print("---------------------------------------------------")
+                print("---------------------------------------------------")
+
+                return redirect('pos:pos')
+
 
             else:
                 #messages.error(HttpRequest,"The product" + product.name + "is not enough in stock!!")
-                print("The product " + product.name + " is out of stock")
-                print("The stock left is " + str(product.quantity))
+                print(f"The product {product.name} is out of stock")
+                print(f"The stock left is {product.quantity}")
+
+                return redirect('pos:pos')
 
         # Handle checkout process
         if 'checkout' in request.POST:
@@ -354,4 +376,3 @@ def pos(request):
     }
 
     return render(request, 'pos/user/pos.html', context)
-    # return redirect('pos:pos', context)
