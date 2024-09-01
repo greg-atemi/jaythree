@@ -16,13 +16,13 @@
         <div class="pos">
             <div class="pos-west">
                 <div class="pos-top">
-                    <form method="post">
+                    <form method="post" action="">
                         {% csrf_token %}
                         <div class="pos-top-left">
-                            <select id="product_id" name="product_id" class="input">
+                            <select id="product_id" name="product_id" class="input" required>
                                 <option value="">--Select a product--</option>
                                 {% for product in products %}
-                                    <option value="{{ product.product_id }}">{{ product.name }}</option>
+                                    <option value="{{ product.product_id }}">{{ product.name }} In stock {{ product.quantity }}</option>
                                 {% endfor %}
                             </select>
                             <input placeholder="Quantity" type="number" id="quantity" name="quantity" class="input2" min="1" required>
@@ -78,78 +78,132 @@
             <div class="pos-east">
                 {% if sale_items %}
                     <div class="total">
-                        <form method="post" action="{% url 'pos:checkout' %}">
-                            {% csrf_token %}
-                            <div class="content">GRAND TOTAL</div>
-                            <div class="grand-total">Kshs. {{ total_sale_amount }}</div>
-                            <button type="submit" class="btn-primary">Checkout</button>
-                        </form>
+                        <div class="content">GRAND TOTAL</div>
+                        <div class="grand-total">Kshs. {{ total_sale_amount }}</div>
+                        <button id="checkout" type="button" class="btn-primary">Checkout</button>
                 {% endif %}
             </div>
         </div>
-        <div class="checkout">
-            <!-- <div id="modal" class="modal"> -->
-            <div>
-                <div class="modal-content">
-                    <p>CHECKOUT</p>
-                    <form action="{% url 'pos:checkout' %}" method="post">
-                        {% csrf_token %}
-                        <div class="fieldWrapper">
-                            <label for="totalAmount">Total Amount</label>
-                            <input class="input" type="number" name="totalAmount" id="totalAmount" value="{{total_sale_amount}}" readonly>
-                        </div>
-                        
-                        <div class="fieldWrapper">
-                            <label for="amountPaid">Amount Paid</label>
-                            <input class="input" type="number" name="amountPaid" id="amountPaid" required>
-                        </div>
 
-                        <div class="fieldWrapper">
-                            <label for="balance">Balance</label>
-                            <input class="input" type="number" name="balance" id="balance" readonly>
-                        </div>
-    
-                        <div class="button-group">
-                            <input class="btn-primary" type="submit" value="SAVE"/>
-                            <button id="cancel" class="btn-secondary">
-                                CANCEL
-                            </button>
-                        </div>
-                    </form>
-                </div>
+        <div id="modal" class="checkout modal">
+            <div class="modal-content">
+                <p>CHECKOUT</p>
+                <form action="{% url 'pos:pos' %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="checkout" value="true">
+                    <div class="fieldWrapper">
+                        <label for="totalAmount">Total Amount</label>
+                        <input class="input" type="number" name="totalAmount" id="totalAmount" value="{{total_sale_amount}}" readonly>
+                    </div>
+                    
+                    <div class="fieldWrapper">
+                        <label for="amountPaid">Amount Paid</label>
+                        <input class="input" type="number" name="amountPaid" id="amountPaid" required>
+                    </div>
+
+                    <div class="fieldWrapper">
+                        <label for="balance">Balance</label>
+                        <input class="input" type="number" name="balance" id="balance" readonly>
+                    </div>
+
+                    <div class="button-group">
+                        <input class="btn-primary" type="submit" value="SAVE"/>
+                        <button type="button" id="cancel-checkout" class="btn-secondary"> CANCEL </button>
+                    </div>
+                </form>
             </div>
-        </div>  
+        </div>
 
+        <div id="modal2" class="receipt modal">
+            <div class="modal-content">
+                <p>SALE RECEIPT</p>
+                <p>DATE: 01/09/2024</p>
+                <p>SALE CODE: XXXXXXXX</p>
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <table class="product">
+                        <thead>
+                            <tr>
+                                <th>PRODUCT NAME</th>
+                                <th>UNIT PRICE</th>
+                                <th>TOTAL</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in sale_items %}
+                            <tr>
+                                <td>{{ item.product_name }}</td>
+                                <td>{{ item.quantity }}*{{ item.price }}</td>
+                                <td>{{ item.total }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                        <tfoot>
+                            {% for sale in sale %}
+                            <tr>
+                                <th>Total</th>
+                                <th></th>
+                                <th>{{ total_sale_amount }}</th>
+                            </tr>
+                            <tr>
+                                <th>Amount Paid</th>
+                                <th></th>
+                                <th>{{ sale.tendered_amount }}</th>
+                            </tr>
+                            <tr>
+                                <th>Balance</th>
+                                <th></th>
+                                <th>{{ sale.balance }}</th>
+                            </tr>
+                            {% endfor %}
+                        </tfoot>
+                    </table>
+
+                    <div class="button-group">
+                        <input class="btn-primary" type="submit" value="PRINT"/>
+                        <button type="button" id="cancel-receipt" class="btn-secondary"> CANCEL </button>
+                    </div>
+                </form>
+            </div>
+        </div> 
     </main>
 
     {% block script_block %}
     <script type="text/javascript">
-        let modal = document.getElementById("modal");
-        let btn_new = document.getElementById("new_product");
-        let cancel = document.getElementById("cancel");
-        let edit = document.getElementById("edit");
+        document.addEventListener('DOMContentLoaded', function() {
+            const modal = document.getElementById("modal");
+            const modal2 = document.getElementById("modal2");
+            const checkoutButton = document.getElementById("checkout");
+            const cancelCheckoutButton = document.getElementById("cancel-checkout");
+            const cancelReceiptButton = document.getElementById("cancel-receipt");
 
-        // btn_new.onclick = function () {
-        //     location.href = "/pos/products";
-        // };
+            checkoutButton.addEventListener('click', function() {
+                modal.style.display = "block";
+            });
 
-        cancel.onclick = function () {
-            modal.style.display = "none";
-        };
-
-        window.onclick = function(event) {
-            if (event.target === modal) {
+            cancelCheckoutButton.addEventListener('click', function() {
                 modal.style.display = "none";
-            }
-        };
+            });
 
-        document.getElementById('amountPaid').addEventListener('input', function() {
-            const totalAmount = parseFloat(document.getElementById('totalAmount').value) || 0;
-            const amountPaid = parseFloat(this.value) || 0;
-            const balance = amountPaid - totalAmount;
-            document.getElementById('balance').value = balance.toFixed(0);
+            cancelReceiptButton.addEventListener('click', function() {
+                modal2.style.display = "none";
+            });
+
+            window.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    modal.style.display = "none";
+                } else if (event.target === modal2) {
+                    modal2.style.display = "none";
+                }
+            });
+
+            document.getElementById('amountPaid').addEventListener('input', function() {
+                const totalAmount = parseFloat(document.getElementById('totalAmount').value) || 0;
+                const amountPaid = parseFloat(this.value) || 0;
+                const balance = amountPaid - totalAmount;
+                document.getElementById('balance').value = balance.toFixed(0);
+            });
         });
     </script>
     {% endblock %}
-
 {% endblock %}
