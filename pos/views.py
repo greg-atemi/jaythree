@@ -3,6 +3,9 @@ from django.http import HttpResponse
 from pos.models import Product, Sale, SaleItems
 from django.contrib import messages
 from django.utils import timezone
+import logging
+
+logger = logging.getLogger(__name__)
 
 def dashboard(request):
     context = {}
@@ -149,54 +152,54 @@ def create_report(request):
     context = {}
     return render(request, 'pos/user/remove_stock.html', context)
 
-def pos(request):
-    if request.method == 'POST':
-        product_id = request.POST.get('product_id')
-        quantity = int(request.POST.get('quantity', 1))
+# def pos(request):
+#     if request.method == 'POST':
+#         product_id = request.POST.get('product_id')
+#         quantity = int(request.POST.get('quantity', 1))
 
-        # Retrieve product details
-        product = Product.objects.get(product_id=product_id)
+#         # Retrieve product details
+#         product = Product.objects.get(product_id=product_id)
 
-        # Create or update sale items in session
-        sale_items = request.session.get('sale_items', [])
+#         # Create or update sale items in session
+#         sale_items = request.session.get('sale_items', [])
 
-        # Check if the product is already in the cart
-        item_exists = False
-        for item in sale_items:
-            if item['product_id'] == int(product_id):
-                item['quantity'] += quantity
-                item['total'] = item['quantity'] * item['price']
-                item_exists = True
-                break
+#         # Check if the product is already in the cart
+#         item_exists = False
+#         for item in sale_items:
+#             if item['product_id'] == int(product_id):
+#                 item['quantity'] += quantity
+#                 item['total'] = item['quantity'] * item['price']
+#                 item_exists = True
+#                 break
         
-        if not item_exists:
-            sale_items.append({
-                'product_id': product_id,
-                'product_name': product.name,
-                'quantity': quantity,
-                'price': product.unit_price,
-                'total': quantity * product.unit_price
-            })
+#         if not item_exists:
+#             sale_items.append({
+#                 'product_id': product_id,
+#                 'product_name': product.name,
+#                 'quantity': quantity,
+#                 'price': product.unit_price,
+#                 'total': quantity * product.unit_price
+#             })
 
-        request.session['sale_items'] = sale_items
+#         request.session['sale_items'] = sale_items
 
-        # Redirect to the same page to avoid resubmitting the form on refresh
-        return redirect('pos:pos')
+#         # Redirect to the same page to avoid resubmitting the form on refresh
+#         return redirect('pos:pos')
 
-    # Calculate total sale amount
-    sale_items = request.session.get('sale_items', [])
-    total_sale_amount = sum(item['total'] for item in sale_items)
+#     # Calculate total sale amount
+#     sale_items = request.session.get('sale_items', [])
+#     total_sale_amount = sum(item['total'] for item in sale_items)
 
-    # Get all products to display in the dropdown
-    products = Product.objects.all()
+#     # Get all products to display in the dropdown
+#     products = Product.objects.all()
 
-    context = {
-        'products': products,
-        'sale_items': sale_items,
-        'total_sale_amount': total_sale_amount
-    }
+#     context = {
+#         'products': products,
+#         'sale_items': sale_items,
+#         'total_sale_amount': total_sale_amount
+#     }
 
-    return render(request, 'pos/user/pos.html', context)
+#     return render(request, 'pos/user/pos.html', context)
 
 def remove_item(request):
     if request.method == 'POST':
@@ -216,39 +219,139 @@ def remove_item(request):
 
     return redirect('pos:pos')
 
-def checkout(request):
-    if 'sale_items' in request.session and request.session['sale_items']:
-        sale_items = request.session['sale_items']
-        total_sale_amount = sum(item['total'] for item in sale_items)
-        tendered_amount = request.POST['amountPaid']
-        balance = request.POST['balance']
+# def checkout(request):
+#     if 'sale_items' in request.session and request.session['sale_items']:
+#         sale_items = request.session['sale_items']
+#         total_sale_amount = sum(item['total'] for item in sale_items)
+#         tendered_amount = request.POST['amountPaid']
+#         balance = request.POST['balance']
 
-        # Create a new sale
-        sale = Sale.objects.create(
-            code=f"SALE-{timezone.now().strftime('%Y%m%d%H%M%S')}",
-            date=timezone.now(),
-            time=timezone.now(),
-            total=total_sale_amount,
-            tendered_amount=tendered_amount,
-            balance=balance
-        )
+#         # Create a new sale
+#         sale = Sale.objects.create(
+#             code=f"SALE-{timezone.now().strftime('%Y%m%d%H%M%S')}",
+#             date=timezone.now(),
+#             time=timezone.now(),
+#             total=total_sale_amount,
+#             tendered_amount=tendered_amount,
+#             balance=balance
+#         )
 
-        # Save each sale item to the database
-        for item in sale_items:
-            product = Product.objects.get(pk=item['product_id'])
-            SaleItems.objects.create(
-                sale_id=sale,
-                product_id=product,
-                quantity=item['quantity'],
-                price=item['price'],
-                total=item['total']
-            )
+#         print(sale)
 
-        # Clear the session
-        del request.session['sale_items']
-        # return redirect('sale_success')  # Redirect to a success page or another view
-        print("Sale successful!!")
+#         # Save each sale item to the database
+#         for item in sale_items:
+#             product = Product.objects.get(pk=item['product_id'])
+#             SaleItems.objects.create(
+#                 sale_id=sale,
+#                 product_id=product,
+#                 quantity=item['quantity'],
+#                 price=item['price'],
+#                 total=item['total']
+#             )
 
-    # return HttpResponse("No items in sale", status=400)
-    # return redirect('pos:checkout')
-    return render(request, 'pos/user/checkout.html')
+#         # Clear the session
+#         del request.session['sale_items']
+#         # return redirect('sale_success')  # Redirect to a success page or another view
+#         print("Sale successful!!")
+
+#         context = {
+#             'sale': sale,
+#         }
+
+#     return redirect('pos:pos', context)
+
+def pos(request):
+    if request.method == 'POST':
+        # Handle adding sale items to session
+        product_id = request.POST.get('product_id')
+        quantity = int(request.POST.get('quantity', 1))
+        
+        if product_id and quantity:
+            # Retrieve product details
+            product = Product.objects.get(product_id=product_id)
+
+            if quantity <= product.quantity:
+                # Create or update sale items in session
+                sale_items = request.session.get('sale_items', [])
+
+                # Check if the product is already in the cart
+                item_exists = False
+                for item in sale_items:
+                    if item['product_id'] == int(product_id):
+                        item['quantity'] += quantity
+                        item['total'] = item['quantity'] * item['price']
+                        item_exists = True
+                        break
+                
+                if not item_exists:
+                    sale_items.append({
+                        'product_id': product_id,
+                        'product_name': product.name,
+                        'quantity': quantity,
+                        'price': product.unit_price,
+                        'total': quantity * product.unit_price
+                    })
+
+                print("here")
+                request.session['sale_items'] = sale_items
+
+            else:
+                #messages.error(HttpRequest,"The product" + product.name + "is not enough in stock!!")
+                print("The product " + product.name + " is out of stock")
+                print("The stock left is " + str(product.quantity))
+
+        # Handle checkout process
+        if 'checkout' in request.POST:
+            print("Step 2")
+            if 'sale_items' in request.session and request.session['sale_items']:
+                sale_items = request.session['sale_items']
+                total_sale_amount = sum(item['total'] for item in sale_items)
+                tendered_amount = float(request.POST['amountPaid'])
+                balance = float(request.POST['balance'])
+
+                # Create a new sale
+                sale = Sale.objects.create(
+                    code=f"SALE-{timezone.now().strftime('%Y%m%d%H%M%S')}",
+                    date=timezone.now(),
+                    time=timezone.now(),
+                    total=total_sale_amount,
+                    tendered_amount=tendered_amount,
+                    balance=balance
+                )
+
+                # Save each sale item to the database
+                for item in sale_items:
+                    product = Product.objects.get(pk=item['product_id'])
+                    SaleItems.objects.create(
+                        sale_id=sale,
+                        product_id=product,
+                        quantity=item['quantity'],
+                        price=item['price'],
+                        total=item['total']
+                    )
+
+                    product.quantity -= item['quantity']
+                    product.save()
+
+                # Clear the session
+                print("Sale successful")
+                del request.session['sale_items']
+
+                # Optionally, redirect to a sale success page
+                return redirect('pos:pos')
+
+    # Calculate total sale amount
+    sale_items = request.session.get('sale_items', [])
+    total_sale_amount = sum(item['total'] for item in sale_items)
+
+    # Get all products to display in the dropdown
+    products = Product.objects.all()
+
+    context = {
+        'products': products,
+        'sale_items': sale_items,
+        'total_sale_amount': total_sale_amount
+    }
+
+    return render(request, 'pos/user/pos.html', context)
+    # return redirect('pos:pos', context)

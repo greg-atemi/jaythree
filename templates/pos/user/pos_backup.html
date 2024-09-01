@@ -1,0 +1,216 @@
+{% extends 'pos/user/base.html' %}
+{% load static %}
+
+{% block title_block %}
+    <title>Point of Sale</title>
+{% endblock %}
+
+{% block body_block %}
+    <main>
+        {% for message in messages %}
+            <div class="message">
+                {{ message }}
+            </div>
+        {% endfor %}
+        
+        <div class="pos">
+            <div class="pos-west">
+                <div class="pos-top">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="pos-top-left">
+                            <select id="product_id" name="product_id" class="input">
+                                <option value="">--Select a product--</option>
+                                {% for product in products %}
+                                    <option value="{{ product.product_id }}">{{ product.name }}</option>
+                                {% endfor %}
+                            </select>
+                            <input placeholder="Quantity" type="number" id="quantity" name="quantity" class="input2" min="1" required>
+                        </div>
+                        <div class="pos-top-right">
+                            <button type="submit" id="add_item" class="btn-primary">
+                                <img alt="home" src="{% static 'images/plus.svg' %}"/>
+                                ADD ITEM
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="pos-bottom">
+                    <table class="product">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>PRODUCT NAME</th>
+                                <th>QUANTITY</th>
+                                <th>PRICE</th>
+                                <th>TOTAL</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in sale_items %}
+                            <tr>
+                                <td>
+                                    <form method="post" action="{% url 'pos:remove_item' %}">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="product_id" value="{{ item.product_id }}">
+                                        <button type="submit" class="remove-button">
+                                            <img alt="x" src="{% static 'images/cross.svg' %}"/>
+                                        </button>
+                                    </form>
+                                </td>
+                                <td>{{ item.product_name }}</td>
+                                <td>{{ item.quantity }}</td>
+                                <td>{{ item.price }}</td>
+                                <td>{{ item.total }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th colspan="4"></th>
+                                <th>{{ total_sale_amount }}</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+            <div class="pos-east">
+                {% if sale_items %}
+                    <div class="total">
+                        <div class="content">GRAND TOTAL</div>
+                        <div class="grand-total">Kshs. {{ total_sale_amount }}</div>
+                        <button id="checkout" type="submit" class="btn-primary">Checkout</button>
+                {% endif %}
+            </div>
+        </div>
+        <div class="checkout">
+            <div id="modal" class="modal">
+                <div class="modal-content">
+                    <p>CHECKOUT</p>
+                    <form action="{% url 'pos:checkout' %}" method="post">
+                        {% csrf_token %}
+                        <div class="fieldWrapper">
+                            <label for="totalAmount">Total Amount</label>
+                            <input class="input" type="number" name="totalAmount" id="totalAmount" value="{{total_sale_amount}}" readonly>
+                        </div>
+                        
+                        <div class="fieldWrapper">
+                            <label for="amountPaid">Amount Paid</label>
+                            <input class="input" type="number" name="amountPaid" id="amountPaid" required>
+                        </div>
+
+                        <div class="fieldWrapper">
+                            <label for="balance">Balance</label>
+                            <input class="input" type="number" name="balance" id="balance" readonly>
+                        </div>
+    
+                        <div class="button-group">
+                            <input class="btn-primary" type="submit" value="SAVE"/>
+                            <button type="button" id="cancel" class="btn-secondary"> CANCEL </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <div class="receipt">
+            <!-- <div id="modal2" class="modal"> -->
+                <div>
+                <div class="modal-content">
+                    <p>SALE RECEIPT</p>
+                    <p>DATE: 01/09/2024</p>
+                    <p>SALE CODE: XXXXXXXX</p>
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <table class="product">
+                            <thead>
+                                <tr>
+                                    <th>PRODUCT NAME</th>
+                                    <th>UNIT PRICE</th>
+                                    <th>TOTAL</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in sale_items %}
+                                <tr>
+                                    <td>{{ item.product_name }}</td>
+                                    <td>{{ item.quantity }}*{{ item.price }}</td>
+                                    <td>{{ item.total }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                            <tfoot>
+                                {% for sale in sale %}
+                                <tr>
+                                    <th>Total</th>
+                                    <th></th>
+                                    <th>{{ total_sale_amount }}</th>
+                                </tr>
+                                <tr>
+                                    <th>Amount Paid</th>
+                                    <th></th>
+                                    <th>{{ sale.tendered_amount }}</th>
+                                </tr>
+                                <tr>
+                                    <th>Balance</th>
+                                    <th></th>
+                                    <th>{{ sale.balance }}</th>
+                                </tr>
+                                {% endfor %}
+                            </tfoot>
+                        </table>
+    
+                        <div class="button-group">
+                            <input class="btn-primary" type="submit" value="PRINT"/>
+                            <button type="button" id="cancel" class="btn-secondary"> CANCEL </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div> 
+
+    </main>
+
+    {% block script_block %}
+    <script type="text/javascript">
+        let modal = document.getElementById("modal");
+        let modal2 = document.getElementById("modal2");
+        let cancel = document.getElementById("cancel");
+        let edit = document.getElementById("edit");
+        let checkout = document.getElementById("checkout");
+
+        window.onload = function () {
+            modal.style.display = "none";
+        };
+
+        checkout.onclick = function () {
+            modal.style.display = "block";
+        };
+
+        cancel.onclick = function () {
+            modal.style.display = "none";
+        };
+
+        window.onclick = function(event) {
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
+        };
+
+        window.onclick = function(event) {
+            if (event.target === modal2) {
+                modal2.style.display = "none";
+            }
+        };
+
+        document.getElementById('amountPaid').addEventListener('input', function() {
+            const totalAmount = parseFloat(document.getElementById('totalAmount').value) || 0;
+            const amountPaid = parseFloat(this.value) || 0;
+            const balance = amountPaid - totalAmount;
+            document.getElementById('balance').value = balance.toFixed(0);
+        });
+    </script>
+    {% endblock %}
+
+{% endblock %}
