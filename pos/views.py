@@ -67,6 +67,15 @@ def update_product(request, product_id):
         return redirect('pos:products')
     return render(request, 'pos/user/update_product.html', context)
 
+def receipt(request, sale_id):
+    sale = Sale.objects.get(sale_id=sale_id)
+    item_list = SaleItems.objects.filter(sale_id=sale)
+    context = {
+        'sale': sale,
+        'item_list': item_list
+    }
+
+    return render(request, 'pos/user/receipt.html', context)
 
 def delete_product(request, product_id):
     product = Product.objects.get(product_id=product_id)
@@ -152,55 +161,6 @@ def create_report(request):
     context = {}
     return render(request, 'pos/user/remove_stock.html', context)
 
-# def pos(request):
-#     if request.method == 'POST':
-#         product_id = request.POST.get('product_id')
-#         quantity = int(request.POST.get('quantity', 1))
-
-#         # Retrieve product details
-#         product = Product.objects.get(product_id=product_id)
-
-#         # Create or update sale items in session
-#         sale_items = request.session.get('sale_items', [])
-
-#         # Check if the product is already in the cart
-#         item_exists = False
-#         for item in sale_items:
-#             if item['product_id'] == int(product_id):
-#                 item['quantity'] += quantity
-#                 item['total'] = item['quantity'] * item['price']
-#                 item_exists = True
-#                 break
-        
-#         if not item_exists:
-#             sale_items.append({
-#                 'product_id': product_id,
-#                 'product_name': product.name,
-#                 'quantity': quantity,
-#                 'price': product.unit_price,
-#                 'total': quantity * product.unit_price
-#             })
-
-#         request.session['sale_items'] = sale_items
-
-#         # Redirect to the same page to avoid resubmitting the form on refresh
-#         return redirect('pos:pos')
-
-#     # Calculate total sale amount
-#     sale_items = request.session.get('sale_items', [])
-#     total_sale_amount = sum(item['total'] for item in sale_items)
-
-#     # Get all products to display in the dropdown
-#     products = Product.objects.all()
-
-#     context = {
-#         'products': products,
-#         'sale_items': sale_items,
-#         'total_sale_amount': total_sale_amount
-#     }
-
-#     return render(request, 'pos/user/pos.html', context)
-
 def remove_item(request):
     if request.method == 'POST':
         product_id = request.POST.get('product_id')
@@ -218,47 +178,6 @@ def remove_item(request):
         return redirect('pos:pos')
 
     return redirect('pos:pos')
-
-# def checkout(request):
-#     if 'sale_items' in request.session and request.session['sale_items']:
-#         sale_items = request.session['sale_items']
-#         total_sale_amount = sum(item['total'] for item in sale_items)
-#         tendered_amount = request.POST['amountPaid']
-#         balance = request.POST['balance']
-
-#         # Create a new sale
-#         sale = Sale.objects.create(
-#             code=f"SALE-{timezone.now().strftime('%Y%m%d%H%M%S')}",
-#             date=timezone.now(),
-#             time=timezone.now(),
-#             total=total_sale_amount,
-#             tendered_amount=tendered_amount,
-#             balance=balance
-#         )
-
-#         print(sale)
-
-#         # Save each sale item to the database
-#         for item in sale_items:
-#             product = Product.objects.get(pk=item['product_id'])
-#             SaleItems.objects.create(
-#                 sale_id=sale,
-#                 product_id=product,
-#                 quantity=item['quantity'],
-#                 price=item['price'],
-#                 total=item['total']
-#             )
-
-#         # Clear the session
-#         del request.session['sale_items']
-#         # return redirect('sale_success')  # Redirect to a success page or another view
-#         print("Sale successful!!")
-
-#         context = {
-#             'sale': sale,
-#         }
-
-#     return redirect('pos:pos', context)
 
 def pos(request):
     if request.method == 'POST':
@@ -314,7 +233,6 @@ def pos(request):
 
                 return redirect('pos:pos')
 
-
             else:
                 #messages.error(HttpRequest,"The product" + product.name + "is not enough in stock!!")
                 print(f"The product {product.name} is out of stock")
@@ -324,7 +242,6 @@ def pos(request):
 
         # Handle checkout process
         if 'checkout' in request.POST:
-            print("Step 2")
             if 'sale_items' in request.session and request.session['sale_items']:
                 sale_items = request.session['sale_items']
                 total_sale_amount = sum(item['total'] for item in sale_items)
@@ -360,7 +277,8 @@ def pos(request):
                 del request.session['sale_items']
 
                 # Optionally, redirect to a sale success page
-                return redirect('pos:pos')
+                # return redirect('pos:pos')
+                return redirect('pos:receipt', sale_id=sale.sale_id)
 
     # Calculate total sale amount
     sale_items = request.session.get('sale_items', [])
