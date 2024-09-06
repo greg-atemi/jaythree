@@ -19,6 +19,12 @@ def products(request):
     }
     return render(request, 'pos/user/products.html', context)
 
+def sales(request):
+    sales_list = Sale.objects.all()
+    context = {
+        'sales': sales_list
+    }
+    return render(request, 'pos/user/sales.html', context)
 
 def save_product(request):
     product_list = Product.objects.all()
@@ -224,12 +230,6 @@ def pos(request):
                 print(f'Sale items in session before update: {sale_items}')
                 request.session['sale_items'] = sale_items
                 print(f'Sale items in session after update: {sale_items}')
-                print("---------------------------------------------------")
-                print("---------------------------------------------------")
-                print("---------------------------------------------------")
-                print("---------------------------------------------------")
-                print("---------------------------------------------------")
-                print("---------------------------------------------------")
 
                 return redirect('pos:pos')
 

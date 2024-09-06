@@ -29,7 +29,7 @@
             <img alt="home" class="nav-logo" src="{% static 'images/stock.svg' %}"/>
             Stock
         </button>
-        <button>
+        <button id="sales">
             <img alt="home" class="nav-logo" src="{% static 'images/sales.svg' %}"/>
             Sales
         </button>
@@ -64,7 +64,8 @@
 <script type="text/javascript">
 
     let dashboard = document.getElementById("dashboard");
-    let product = document.getElementById("product");
+    let products = document.getElementById("product");
+    let sales = document.getElementById("sales");
     let stock = document.getElementById("stock");
     let pos = document.getElementById("pos");
 
@@ -72,7 +73,7 @@
         location.href = "/";
     };
 
-    product.onclick = function () {
+    products.onclick = function () {
         location.href = "/pos/products";
     };
 
@@ -82,6 +83,10 @@
 
     pos.onclick = function () {
         location.href = "/pos/pos";
+    };
+
+    sales.onclick = function () {
+        location.href = "/pos/sales";
     };
 </script>
 
