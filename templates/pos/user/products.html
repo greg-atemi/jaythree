@@ -36,10 +36,10 @@
                     <td>{{ product.unit_price }}</td>
                     <td>{{ product.quantity }}</td>
                     <td>
-                        <a href="{% url 'pos:update_product' product.product_id %}">
-                            <img id="edit"  alt="edit" class="icon" src="{% static 'images/edit.svg' %}"/>
+                        <a class="no-underline" href="{% url 'pos:update_product' product.product_id %}">
+                            <img id="edit" alt="edit" class="icon" src="{% static 'images/edit.svg' %}"/>
                         </a>
-                        <a href="{% url 'pos:delete_product' product.product_id %}">
+                        <a class="no-underline" href="{% url 'pos:delete_product' product.product_id %}">
                             <img alt="delete" src="{% static 'images/delete.svg' %}"/>
                         </a>
                     </td>
