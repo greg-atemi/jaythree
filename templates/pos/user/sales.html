@@ -36,7 +36,7 @@
                     <td>{{ sale.time }}</td>
                     <td>{{ sale.total }}</td>
                     <td>
-                        <a class="no-underline" href="{% url 'pos:delete_product' sale.sale_id %}">
+                        <a class="no-underline" href="{% url 'pos:sale_receipt' sale.sale_id %}">
                             <img alt="print_receipt" src="{% static 'images/print.svg' %}"/>
                         </a>
                     </td>
