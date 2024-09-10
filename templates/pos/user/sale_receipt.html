@@ -1,0 +1,77 @@
+{% extends 'pos/user/base.html' %}
+{% load static %}
+
+{% block title_block %}
+    <title>Point of Sale</title>
+{% endblock %}
+
+{% block body_block %}
+    <main>
+        {% for message in messages %}
+            <div class="message">
+                {{ message }}
+            </div>
+        {% endfor %}
+        
+        <form action="" method="post">
+            <div id="modal2" class="receipt modal2">
+                <div class="modal-content">
+                    <p>SALE RECEIPT</p>
+                    <p>DATE: {{ sale.date }}</p>
+                    <p>TIME: {{ sale.time }}</p>
+                    <p>SALE CODE: {{ sale.code }}</p>
+                    {% csrf_token %}
+                    <table class="table-receipt">
+                        <thead class="thead-receipt">
+                            <tr class="tr-receipt">
+                                <th class="th-receipt">PRODUCT NAME</th>
+                                <th class="th-receipt2">AMOUNT</th>
+                            </tr>
+                        </thead>
+                        <tbody class="tbody-receipt">
+                            {% for item in item_list %}
+                            <tr class="tr-receipt">
+                                <td class="td-receipt">{{ item.product_id.name }}</td>
+                                <td class="td-receipt2">{{ item.quantity }}*{{ item.price }}</td>
+                            </tr>
+                            <tr class="tr-receipt">
+                                <td colspan="2" class="td-receipt3">{{ item.total }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                        <tfoot class="tfoot-receipt">
+                            <tr class="tr-receipt">
+                                <th class="th-receipt">Grand Total</th>
+                                <th class="th-receipt2">{{ sale.total }}</th>
+                            </tr>
+                            <tr class="tr-receipt">
+                                <th class="th-receipt">Amount Paid</th>
+                                <th class="th-receipt2">{{ sale.tendered_amount }}</th>
+                            </tr>
+                            <tr class="tr-receipt">
+                                <th class="th-receipt">Balance</th>
+                                <th class="th-receipt2">{{ sale.balance }}</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    <div class="button-group">
+                        <!-- <input class="btn-primary" type="submit" value="PRINT"/> -->
+                        <button id="printbutton" onclick="window.print()" class="btn-primary"> PRINT </button>
+                        <button id="cancel" type="button" id="cancel-receipt" class="btn-secondary"> CANCEL </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </main>
+
+    {% block script_block %}
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function() {
+            const cancelButton = document.getElementById('cancel');
+            cancelButton.addEventListener('click', function() {
+            window.location.href = '/pos/pos';  // Navigates back to the POS page
+        });
+    });
+</script>
+    {% endblock %}
+{% endblock %}

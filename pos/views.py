@@ -83,6 +83,16 @@ def receipt(request, sale_id):
 
     return render(request, 'pos/user/receipt.html', context)
 
+def sale_receipt(request, sale_id):
+    sale = Sale.objects.get(sale_id=sale_id)
+    item_list = SaleItems.objects.filter(sale_id=sale)
+    context = {
+        'sale': sale,
+        'item_list': item_list
+    }
+
+    return render(request, 'pos/user/sale_receipt.html', context)
+
 def delete_product(request, product_id):
     product = Product.objects.get(product_id=product_id)
     name = product.name
