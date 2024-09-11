@@ -19,6 +19,32 @@ def products(request):
     }
     return render(request, 'pos/user/products.html', context)
 
+def reports(request):
+    result_list = None
+
+    if request.method == 'POST':
+        print("Here")
+        start_date_time = request.POST.get('start_date_time')
+        end_date_time = request.POST.get('end_date_time')
+        print("Here2")
+
+        if start_date_time and end_date_time:
+            # Convert strings to datetime objects
+            print("Here3")
+            start_date_time = timezone.datetime.fromisoformat(start_date_time)
+            end_date_time = timezone.datetime.fromisoformat(end_date_time)
+
+            # Query the Sale model using date and time ranges
+            print("Here4")
+            result_list = Sale.objects.filter(
+                date__range=[start_date_time.date(), end_date_time.date()],
+                time__range=[start_date_time.time(), end_date_time.time()]
+            )
+            print(result_list)
+    return render(request, 'pos/user/reports.html', {
+        'result_list': result_list,
+    })
+
 def sales(request):
     sales_list = Sale.objects.all()
     context = {
