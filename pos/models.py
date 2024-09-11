@@ -1,3 +1,4 @@
+import datetime
 from django.db import models
 from django.utils import timezone
 
@@ -25,6 +26,10 @@ class Sale(models.Model):
 
     def __str__(self):
         return self.code
+    
+    @property
+    def datetime(self):
+        return datetime.combine(self.date, self.time)
 
 
 class SaleItems(models.Model):

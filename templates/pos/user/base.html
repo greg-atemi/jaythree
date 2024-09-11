@@ -33,17 +33,9 @@
             <img alt="home" class="nav-logo" src="{% static 'images/sales.svg' %}"/>
             Sales
         </button>
-        <button>
+        <button id="reports">
             <img alt="home" class="nav-logo" src="{% static 'images/report.svg' %}"/>
-            Daily Reports
-        </button>
-        <button>
-            <img alt="home" class="nav-logo" src="{% static 'images/report.svg' %}"/>
-            Weekly Reports
-        </button>
-        <button>
-            <img alt="home" class="nav-logo" src="{% static 'images/report.svg' %}"/>
-            Monthly Reports
+            Reports
         </button>
     </nav>
 
@@ -52,6 +44,33 @@
             <p id="date"></p>
             <p>Greg Atemi</p>
         </nav>
+
+        <div id="modal" class="reports-modal">
+            <div class="modal-content">
+                <p>REPORTS</p>
+                <form action="{% url 'pos:reports' %}" method="POST" id="dateRangeForm">
+                    {% csrf_token %}
+                    <div class="fieldWrapper">
+                        <label for="start_date_time">Start Date:</label>
+                        <input type="datetime-local" class="input" type="date" id="start_date_time" name="start_date_time" required>
+                    </div>
+            
+                    <div class="fieldWrapper">
+                        <label for="end_date_time">End Date:</label>
+                        <input type="datetime-local" class="input" type="date" id="end_date_time" name="end_date_time" required>
+                    </div>
+                    
+                    <div class="fieldWrapper">
+                        <div id="error-message" class="error"></div>
+                    </div>
+                    <div class="button-group">
+                        
+                        <input class="btn-primary" type="submit" value="SAVE"/>
+                        <button type="button" id="cancel-checkout" class="btn-secondary"> CANCEL </button>
+                    </div>
+                </form>
+            </div>
+        </div>
 
     {% block body_block %}
 
@@ -63,11 +82,32 @@
 
 <script type="text/javascript">
 
+    let modal3 = document.getElementById("modal");
     let dashboard = document.getElementById("dashboard");
     let products = document.getElementById("product");
     let sales = document.getElementById("sales");
     let stock = document.getElementById("stock");
     let pos = document.getElementById("pos");
+    let reports = document.getElementById("reports");
+
+    document.getElementById('dateRangeForm').addEventListener('submit', function(event) {
+        const startDateTime = new Date(document.getElementById('start_date_time').value);
+        const endDateTime = new Date(document.getElementById('end_date_time').value);
+        const errorMessage = document.getElementById('error-message');
+
+        // Clear previous error message
+        errorMessage.textContent = '';
+
+        // Check if start date is greater than end date
+        if (startDateTime > endDateTime) {
+            event.preventDefault(); // Prevent form submission
+            errorMessage.textContent = 'Start date and time cannot be later than the end date and time.';
+        }
+    });
+
+    // checkoutButton.addEventListener('click', function() {
+    //     modal.style.display = "block";
+    // });
 
     dashboard.onclick = function () {
         location.href = "/";
@@ -87,6 +127,10 @@
 
     sales.onclick = function () {
         location.href = "/pos/sales";
+    };
+
+    reports.onclick = function () {
+        location.href = "/pos/reports";
     };
 </script>
 
