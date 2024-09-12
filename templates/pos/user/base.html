@@ -45,7 +45,7 @@
             <p>Greg Atemi</p>
         </nav>
 
-        <div id="modal" class="reports-modal">
+        <div id="reports-modal" class="modal">
             <div class="modal-content">
                 <p>REPORTS</p>
                 <form action="{% url 'pos:reports' %}" method="POST" id="dateRangeForm">
@@ -63,10 +63,10 @@
                     <div class="fieldWrapper">
                         <div id="error-message" class="error"></div>
                     </div>
-                    <div class="button-group">
-                        
+                    
+                    <div class="button-group">                        
                         <input class="btn-primary" type="submit" value="SAVE"/>
-                        <button type="button" id="cancel-checkout" class="btn-secondary"> CANCEL </button>
+                        <button type="button" id="close-modal" class="btn-secondary"> CANCEL </button>
                     </div>
                 </form>
             </div>
@@ -81,14 +81,14 @@
 </body>
 
 <script type="text/javascript">
-
-    let modal3 = document.getElementById("modal");
+    let reports_modal = document.getElementById("reports-modal");
+    let close_modal = document.getElementById("close-modal");
     let dashboard = document.getElementById("dashboard");
     let products = document.getElementById("product");
+    let reports = document.getElementById("reports");
     let sales = document.getElementById("sales");
     let stock = document.getElementById("stock");
     let pos = document.getElementById("pos");
-    let reports = document.getElementById("reports");
 
     document.getElementById('dateRangeForm').addEventListener('submit', function(event) {
         const startDateTime = new Date(document.getElementById('start_date_time').value);
@@ -104,10 +104,6 @@
             errorMessage.textContent = 'Start date and time cannot be later than the end date and time.';
         }
     });
-
-    // checkoutButton.addEventListener('click', function() {
-    //     modal.style.display = "block";
-    // });
 
     dashboard.onclick = function () {
         location.href = "/";
@@ -129,9 +125,14 @@
         location.href = "/pos/sales";
     };
 
-    reports.onclick = function () {
-        location.href = "/pos/reports";
-    };
+    reports.addEventListener('click', function() {
+        reports_modal.style.display = "block";
+    });
+
+    close_modal.addEventListener('click', function() {
+        reports_modal.style.display = "none";
+    });
+
 </script>
 
 </html>
