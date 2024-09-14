@@ -1,11 +1,12 @@
-from django.shortcuts import redirect, render
-from django.http import HttpResponse
 from pos.models import Product, Sale, SaleItems
+from django.shortcuts import redirect, render
+from django.core.paginator import Paginator
+from django.http import HttpResponse
 from django.contrib import messages
 from django.utils import timezone
-import logging
+# import logging
 
-logger = logging.getLogger(__name__)
+# logger = logging.getLogger(__name__)
 
 def dashboard(request):
     context = {}
@@ -46,7 +47,7 @@ def reports(request):
     })
 
 def sales(request):
-    sales_list = Sale.objects.all()
+    sales_list = Sale.objects.all().order_by('-sale_id')
     context = {
         'sales': sales_list
     }
