@@ -39,31 +39,31 @@
                 </tr>
                 {% endfor %}
             </tbody>
+
+            <tfoot>
+                <tr>
+                    <td>Page {{ page_object.number }} of {{ page_object.paginator.num_pages }}</td>
+                    <td></td>
+                    <td></td>
+                    <td colspan="2">
+                        <a href="{% url 'pos:sales' 1 %}">&laquo;</a>
+                        {% for num in page_object.paginator.page_range %}
+                            {% if page_object.number == num %}
+                                <strong>{{ num }}</strong>
+                            {% else %}
+                                <a href="{% url 'pos:sales' num %}">{{ num }}</a>
+                            {% endif %}
+                        {% endfor %}
+                        <a href="{% url 'pos:sales' page_object.paginator.num_pages %}">&raquo;</a>
+                        
+                    </td>
+                </tr>
+            </tfoot>
+
         </table>
 
-        <div class="pagination">
-            <!-- Previous Page -->
-            {% if page_object.has_previous %}
-                <a href="{% url 'pos:sales' page_object.previous_page_number %}">Previous</a>
-            {% endif %}
-    
-            <!-- Current Page and Total Pages -->
-            Page {{ page_object.number }} of {{ page_object.paginator.num_pages }}
-    
-            <!-- Next Page -->
-            {% if page_object.has_next %}
-                <a href="{% url 'pos:sales' page_object.next_page_number %}">Next</a>
-            {% endif %}
-        </div>
-
         <div>
-            {% for num in page_object.paginator.page_range %}
-                {% if page_object.number == num %}
-                    <strong>{{ num }}</strong>
-                {% else %}
-                    <a href="{% url 'pos:sales' num %}">{{ num }}</a>
-                {% endif %}
-            {% endfor %}
+            
         </div>
     </main>
 

@@ -7,7 +7,6 @@ urlpatterns = [
     path('pos', views.pos, name='pos'),
     path('stock', views.stock, name='stock'),
     path('sales', views.sales, name='sales'),
-    # path('sales', views.sales, name='sales'),
     path("sales/<int:page>",views.sales,name="sales"),
     path('reports', views.reports, name='reports'),
     path('products', views.products, name='products'),
@@ -19,5 +18,4 @@ urlpatterns = [
     path('remove_stock/<str:product_id>', views.remove_stock, name='remove_stock'),
     path('delete_product/<str:product_id>', views.delete_product, name='delete_product'),
     path('update_product/<str:product_id>', views.update_product, name='update_product'),
-    # path("listing.json",views.listing_api,name="terms-api")
 ]
