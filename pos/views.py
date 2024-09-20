@@ -10,7 +10,7 @@ def dashboard(request):
 
 def products(request, page):
     product_list = Product.objects.all().order_by("-product_id")
-    paginator = Paginator(product_list, per_page=12)
+    paginator = Paginator(product_list, per_page=10)
     page_object = paginator.get_page(page)
     context = {"page_object": page_object}
     return render(request, 'pos/user/products.html', context)

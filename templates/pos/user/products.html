@@ -59,7 +59,7 @@
                                     <a class="pagination" href="{% url 'pos:products' num %}">{{ num }}</a>
                                 {% endif %}
                             {% endfor %}
-                            <a class="pagination-ends" href="{% url 'pos:products' page_object.paginator.num_pages %}">&raquo;</a>
+                            <a class="pagination-ends" href="{% url 'pos:products' page_object.paginator.num_pages|default:1 %}">&raquo;</a>
                         </div>
                     </td>
                 </tr>
