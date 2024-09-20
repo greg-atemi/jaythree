@@ -1,23 +1,18 @@
 from pos.models import Product, Sale, SaleItems
 from django.shortcuts import redirect, render
 from django.core.paginator import Paginator
-from django.http import JsonResponse
 from django.contrib import messages
 from django.utils import timezone
-# import logging
-
-# logger = logging.getLogger(__name__)
 
 def dashboard(request):
     context = {}
     return render(request, 'pos/user/dashboard.html', context)
 
-
-def products(request):
-    product_list = Product.objects.all()
-    context = {
-        'products': product_list
-    }
+def products(request, page):
+    product_list = Product.objects.all().order_by("-product_id")
+    paginator = Paginator(product_list, per_page=12)
+    page_object = paginator.get_page(page)
+    context = {"page_object": page_object}
     return render(request, 'pos/user/products.html', context)
 
 def reports(request):
@@ -132,13 +127,12 @@ def delete_product(request, product_id):
     return render(request, 'pos/user/delete_product.html', context)
 
 
-def stock(request):
-    product_list = Product.objects.all()
-    context = {
-        'products': product_list
-    }
+def stock(request, page):
+    product_list = Product.objects.all().order_by("-product_id")
+    paginator = Paginator(product_list, per_page=12)
+    page_object = paginator.get_page(page)
+    context = {"page_object": page_object}
     return render(request, 'pos/user/stock.html', context)
-
 
 def add_stock(request, product_id):
     product_list = Product.objects.all()

@@ -29,7 +29,7 @@
                 </tr>
             </thead>
             <tbody>
-                {% for product in products %}
+                {% for product in page_object %}
                 <tr>
                     <td>{{ product.product_id }}</td>
                     <td>{{ product.name }}</td>
@@ -46,6 +46,24 @@
                 </tr>
                 {% endfor %}
             </tbody>
+            <tfoot></tfoot>
+                <tr>
+                    <td>Page {{ page_object.number }} of {{ page_object.paginator.num_pages }}</td>
+                    <td colspan="4">
+                        <div class="pagination-cell">
+                            <a class="pagination-ends" href="{% url 'pos:products' 1 %}">&laquo;</a>
+                            {% for num in page_object.paginator.page_range %}
+                                {% if page_object.number == num %}
+                                    <span class="pagination-active">{{ num }}</span>
+                                {% else %}
+                                    <a class="pagination" href="{% url 'pos:products' num %}">{{ num }}</a>
+                                {% endif %}
+                            {% endfor %}
+                            <a class="pagination-ends" href="{% url 'pos:products' page_object.paginator.num_pages %}">&raquo;</a>
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>
         </table>
 
         {% block content_block %}
