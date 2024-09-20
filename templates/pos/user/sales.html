@@ -43,19 +43,18 @@
             <tfoot>
                 <tr>
                     <td>Page {{ page_object.number }} of {{ page_object.paginator.num_pages }}</td>
-                    <td></td>
-                    <td></td>
-                    <td colspan="2">
-                        <a href="{% url 'pos:sales' 1 %}">&laquo;</a>
-                        {% for num in page_object.paginator.page_range %}
-                            {% if page_object.number == num %}
-                                <strong>{{ num }}</strong>
-                            {% else %}
-                                <a href="{% url 'pos:sales' num %}">{{ num }}</a>
-                            {% endif %}
-                        {% endfor %}
-                        <a href="{% url 'pos:sales' page_object.paginator.num_pages %}">&raquo;</a>
-                        
+                    <td colspan="4">
+                        <div class="pagination-cell">
+                            <a class="pagination-ends" href="{% url 'pos:sales' 1 %}">&laquo;</a>
+                            {% for num in page_object.paginator.page_range %}
+                                {% if page_object.number == num %}
+                                    <span class="pagination-active">{{ num }}</span>
+                                {% else %}
+                                    <a class="pagination" href="{% url 'pos:sales' num %}">{{ num }}</a>
+                                {% endif %}
+                            {% endfor %}
+                            <a class="pagination-ends" href="{% url 'pos:sales' page_object.paginator.num_pages %}">&raquo;</a>
+                        </div>
                     </td>
                 </tr>
             </tfoot>

@@ -48,34 +48,6 @@ def sales(request, page=1):
     context = {"page_object": page_object}
     return render(request, "pos/user/sales.html", context)
 
-# def sales(request):
-#     sales_list = Sale.objects.all().order_by('-sale_id')
-#     context = {
-#         'sales': sales_list
-#     }
-#     return render(request, 'pos/user/sales.html', context)
-
-# def listing_api(request):
-#     page_number = request.GET.get("page", 1)
-#     per_page = request.GET.get("per_page", 2)
-#     startswith = request.GET.get("startswith", "")
-#     sales = Sale.objects.filter(
-#         name__startswith=startswith
-#     )
-#     paginator = Paginator(sales, per_page)
-#     page_obj = paginator.get_page(page_number)
-#     data = [{"name": kw.name} for kw in page_obj.object_list]
-
-#     payload = {
-#         "page": {
-#             "current": page_obj.number,
-#             "has_next": page_obj.has_next(),
-#             "has_previous": page_obj.has_previous(),
-#         },
-#         "data": data
-#     }
-#     return JsonResponse(payload)
-
 def save_product(request):
     product_list = Product.objects.all()
     context = {
