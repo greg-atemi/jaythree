@@ -423,6 +423,11 @@ td .icon{
     padding: 8px 16px;
     border-radius: 8px;
     text-decoration: none;
+    transition: background-color .3s;
+}
+
+.pagination:hover:not(.pagination-active){
+    background-color: #a6a6a6;
 }
 
 .pagination-active{
@@ -435,8 +440,14 @@ td .icon{
 }
 
 .pagination-ends{
-    color: black;
     float: left;
+    color: black;
     padding: 8px 16px;
+    border-radius: 8px;
     text-decoration: none;
+    transition: background-color .3s;
+}
+
+.pagination-ends:hover{
+    background-color: #a6a6a6;
 }
