@@ -9,7 +9,7 @@ def dashboard(request):
     return render(request, 'pos/user/dashboard.html', context)
 
 def products(request, page):
-    product_list = Product.objects.all().order_by("-product_id")
+    product_list = Product.objects.all().order_by("product_id")
     paginator = Paginator(product_list, per_page=10)
     page_object = paginator.get_page(page)
     context = {"page_object": page_object}
@@ -45,6 +45,7 @@ def sales(request, page=1):
 
 def save_product(request):
     product_list = Product.objects.all()
+    page_number = 1
     context = {
         'products': product_list
     }
@@ -61,12 +62,13 @@ def save_product(request):
         newproduct.save()
         messages.success(request, "Product (" + name + ") Created Successfully. \n ")
 
-        return redirect('pos:products')
+        return redirect('pos:products',page=page_number)
     return render(request, 'pos/user/new_product.html', context)
 
 
 def update_product(request, product_id):
     product = Product.objects.get(product_id=product_id)
+    page_number = 1
     product_list = Product.objects.all()
     context = {
         'product': product,
@@ -87,7 +89,7 @@ def update_product(request, product_id):
 
         messages.success(request, "Product (" + name + ") Updated Successfully. \n ")
 
-        return redirect('pos:products')
+        return redirect('pos:products', page=page_number)
     return render(request, 'pos/user/update_product.html', context)
 
 def receipt(request, sale_id):
@@ -122,7 +124,7 @@ def delete_product(request, product_id):
     if request.method == "POST":
         product.delete()
         messages.success(request, "Product (" + name + ") Deleted Successfully. \n ")
-        return redirect('pos:products')
+        return redirect('pos:products', page=1)
 
     return render(request, 'pos/user/delete_product.html', context)
 
@@ -136,6 +138,7 @@ def stock(request, page):
 
 def add_stock(request, product_id):
     product_list = Product.objects.all()
+    page_number = 1
     product = Product.objects.get(product_id=product_id)
     context = {
         'products': product_list,
@@ -156,7 +159,7 @@ def add_stock(request, product_id):
 
         messages.success(request, "Stock of (" + name + " " + "Amount: " + request.POST[
             'quantity'] + ") Added Successfully. \n ")
-        return redirect('pos:stock')
+        return redirect('pos:stock', page=page_number)
     return render(request, 'pos/user/add_stock.html', context)
 
 
@@ -186,7 +189,7 @@ def remove_stock(request, product_id):
 
         messages.success(request, "Stock of (" + name + " " + "Amount: " + request.POST[
             'quantity'] + ") Reduced Successfully. \n ")
-        return redirect('pos:stock')
+        return redirect('pos:stock', page=1)
     return render(request, 'pos/user/remove_stock.html', context)
 
 def create_report(request):

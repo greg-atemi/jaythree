@@ -28,7 +28,7 @@
 
                 <div class="button-group">
                     <input class="btn-primary" type="submit" value="SAVE"/>
-                    <a class="btn-secondary" style="width:54px;justify-content:center;text-decoration: none" href="{% url 'pos:products' %}">CANCEL</a>
+                    <a class="btn-secondary" style="width:54px;justify-content:center;text-decoration: none" href="{% url 'pos:products' 1 %}">CANCEL</a>
                 </div>
             </form>
         </div>
@@ -45,12 +45,12 @@
 
         window.onclick = function(event) {
             if (event.target === modal) {
-                location.href = "/pos/products";
+                location.href = "/pos/products/1";
             }
         }
 
         product.onclick = function () {
-            location.href = "/pos/products";
+            location.href = "/pos/products/1";
         };
     </script>
 {% endblock %}

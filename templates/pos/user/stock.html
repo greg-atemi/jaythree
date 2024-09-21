@@ -58,7 +58,7 @@
                                     <a class="pagination" href="{% url 'pos:stock' num %}">{{ num }}</a>
                                 {% endif %}
                             {% endfor %}
-                            <a class="pagination-ends" href="{% url 'pos:stock' page_object.paginator.num_pages %}">&raquo;</a>
+                            <a class="pagination-ends" href="{% url 'pos:stock' page_object.paginator.num_pages|default:1 %}">&raquo;</a>
                         </div>
                     </td>
                 </tr>
@@ -111,7 +111,7 @@
         let edit = document.getElementById("edit");
 
         btn_new.onclick = function () {
-            location.href = "/pos/products";
+            location.href = "/pos/products/1";
         }
 
         cancel.onclick = function () {
