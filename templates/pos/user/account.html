@@ -58,12 +58,47 @@
             </div>
         </div>
     </div>
+
+    <div id="bio_modal" class="bio_modal">
+        <div class="modal-content">
+            <p>BIO DETAILS</p>
+            <form action="{% url 'pos:pos' %}" method="post" id="checkout-form">
+                {% csrf_token %}
+                <input type="hidden" name="checkout" value="true">
+                <div class="fieldWrapper">
+                    <label for="first_name">First Name</label>
+                    <input class="input" type="text" name="first_name" id="first_name" value="{{total_sale_amount}}" required>
+                </div>
+                
+                <div class="fieldWrapper">
+                    <label for="amountPaid">Surname</label>
+                    <input class="input" type="text" name="amountPaid" id="amountPaid" required>
+                </div>
+                
+                <div class="fieldWrapper">
+                    <label for="balance">Username</label>
+                    <input class="input" type="number" name="balance" id="balance" readonly>
+                </div>
+                
+                <div class="fieldWrapper">
+                    <label for="balance">Email Address</label>
+                    <input class="input" type="number" name="balance" id="balance" readonly>
+                </div>
+
+                <div class="button-group">
+                    <input class="btn-primary" type="submit" value="SAVE"/>
+                    <button type="button" id="cancel-checkout" class="btn-secondary"> CANCEL </button>
+                </div>
+            </form>
+        </div>
+    </div>
 {% endblock %}
 
 {% block script_block %}
     <script type="text/javascript">
         let bio = document.getElementById("bio");
         let account = document.getElementById("account");
+        let bio_modal = document/getElementById("bio_modal");
 
         window.onload = function () {
             modal.style.display = "block";

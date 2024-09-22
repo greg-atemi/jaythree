@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from pos.models import Product, Sale, SaleItems
 from django.shortcuts import redirect, render
 from django.contrib.auth.models import User
@@ -9,6 +10,7 @@ def dashboard(request):
     context = {}
     return render(request, 'pos/user/dashboard.html', context)
 
+# @login_required
 def account(request):
     context = {}
     return render(request, 'pos/user/account.html', context)
