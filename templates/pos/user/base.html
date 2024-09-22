@@ -41,8 +41,9 @@
 
     <div class="parent">
         <nav class="topbar">
-            <p id="date"></p>
-            <p>Greg Atemi</p>
+            <div id="auth" class="auth">
+                ACCOUNT SETTINGS
+            </div>
         </nav>
 
         <div id="reports-modal" class="modal">
@@ -88,6 +89,7 @@
     let reports = document.getElementById("reports");
     let sales = document.getElementById("sales");
     let stock = document.getElementById("stock");
+    let auth = document.getElementById("auth")
     let pos = document.getElementById("pos");
 
     document.getElementById('dateRangeForm').addEventListener('submit', function(event) {
@@ -132,6 +134,10 @@
     close_modal.addEventListener('click', function() {
         reports_modal.style.display = "none";
     });
+    
+    auth.onclick = function () {
+        location.href = "/pos/account";
+    };
 
 </script>
 
