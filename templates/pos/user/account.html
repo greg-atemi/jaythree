@@ -1,0 +1,86 @@
+{% extends 'pos/user/base.html' %}
+{% load static %}
+
+{% block title_block %}
+    <title>User Account</title>
+{% endblock %}
+
+{% block body_block %}
+    <div class="main3">
+        <div class="pill2">
+            <div>
+                <p>BIO DETAILS</p>
+                <button id="bio">UPDATE DETAILS</button>
+            </div>
+            <div class="fieldset">
+                <div class="fieldgroup">
+                    <div>
+                        <label for="first_name">First Name</label>
+                        <input id="first_name" type="text"/>
+                    </div>
+                    <div>
+                        <label for="first_name">Surname</label>
+                        <input id="first_name" type="text"/>
+                    </div>
+                </div>
+                
+                <div class="fieldgroup">
+                    <div>
+                        <label for="first_name">Username</label>
+                        <input id="first_name" type="text"/>
+                    </div>
+                    <div>
+                        <label for="first_name">Email Address</label>
+                        <input id="first_name" type="text"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="pill2">
+            <div>
+                <p>USER ACCOUNT DETAILS</p>
+                <button id="account">UPDATE DETAILS</button>
+            </div>
+            <div class="fieldset">
+                <div class="fieldgroup">
+                    <div>
+                        <label for="current_password">Current Password</label>
+                        <input id="current_password" type="password"/>
+                    </div>
+                </div>
+                <div class="fieldgroup">
+                    <div style="display: none;">
+                        <label for="current_password">Current Password</label>
+                        <input id="current_password" type="password"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script_block %}
+    <script type="text/javascript">
+        let bio = document.getElementById("bio");
+        let account = document.getElementById("account");
+
+        window.onload = function () {
+            modal.style.display = "block";
+        }
+
+        cancel.onclick = function () {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target === modal) {
+                location.href = "/pos/products/1";
+            }
+        }
+
+        product.onclick = function () {
+            location.href = "/pos/products/1";
+        };
+    </script>
+{% endblock %}

@@ -1,5 +1,6 @@
 from pos.models import Product, Sale, SaleItems
 from django.shortcuts import redirect, render
+from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.contrib import messages
 from django.utils import timezone
@@ -7,6 +8,44 @@ from django.utils import timezone
 def dashboard(request):
     context = {}
     return render(request, 'pos/user/dashboard.html', context)
+
+def account(request):
+    context = {}
+    return render(request, 'pos/user/account.html', context)
+
+def signup(request):
+    if request.method == "POST":
+        username = request.POST['username']
+        fname = request.POST['fname']
+        lname = request.POST['lname']
+        email = request.POST['email']
+        pass1 = request.POST['pass1']
+        pass2 = request.POST['pass2']
+
+        if User.objects.filter(username=username):
+            messages.error(request, "Username already exists!!")
+            return redirect('vote:signup')
+
+        if User.objects.filter(email=email):
+            messages.error(request, "Email already exists!!")
+            return redirect('vote:signup')
+
+        if pass1 != pass2:
+            messages.error(request, "Passwords do not match")
+            return redirect('vote:signup')
+
+        myuser = User.objects.create_user(username, email, pass1)
+        myuser.first_name = fname
+        myuser.last_name = lname
+        myuser.is_active = True
+
+        myuser.save()
+
+        messages.success(request, "Your Account has been created successfully. \n ")
+
+        return redirect('vote:login')
+
+    return render(request, 'vote/auth/signup.html')
 
 def products(request, page):
     product_list = Product.objects.all().order_by("product_id")
