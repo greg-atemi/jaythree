@@ -1,8 +1,14 @@
-import datetime
-from django.db import models
+from django.contrib.auth.models import User
 from django.utils import timezone
+from django.db import models
+import datetime
 
-
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=200)
+    last_name = models.CharField(max_length=200)
+    email = models.EmailField(default="test@test.com")
+    
 class Product(models.Model):
     product_id = models.SmallAutoField(primary_key=True)
     name = models.CharField(max_length=200)

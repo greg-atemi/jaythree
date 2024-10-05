@@ -1,4 +1,7 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import login as auth_login
+from django.contrib.auth import authenticate
+from django.contrib.auth import logout
 from pos.models import Product, Sale, SaleItems
 from django.shortcuts import redirect, render
 from django.contrib.auth.models import User
@@ -6,35 +9,72 @@ from django.core.paginator import Paginator
 from django.contrib import messages
 from django.utils import timezone
 
+@login_required
 def dashboard(request):
     context = {}
     return render(request, 'pos/user/dashboard.html', context)
 
-# @login_required
+def login(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        pass1 = request.POST['pass1']
+        user = authenticate(username=username, password=pass1)
+
+        if user is not None:
+            auth_login(request, user)
+            messages.success(request, "Login Successful.")
+            return redirect('dashboard')
+
+        else:
+            messages.error(request, "Username or Password is incorrect")
+
+    return render(request, 'pos/auth/login.html')
+
+@login_required
+def log_out(request):
+    logout(request)
+    return render(request, 'pos/auth/logout.html')
+
+@login_required
 def account(request):
-    context = {}
+    uname = request.user.username
+    fname = request.user.first_name
+    lname = request.user.last_name
+    email = request.user.email
+    context = {
+        'uname': uname,
+        'fname': fname,
+        'lname': lname,
+        'email': email
+    }
+    print("Username: " + uname)
+    print("First name: " + fname)
+    print("Last name: " + lname)
+    print("Email: " + email)
     return render(request, 'pos/user/account.html', context)
 
 def signup(request):
     if request.method == "POST":
-        username = request.POST['username']
+        # username = request.POST['username']
         fname = request.POST['fname']
         lname = request.POST['lname']
+        username = fname + lname
+        username = username.lower()
         email = request.POST['email']
         pass1 = request.POST['pass1']
         pass2 = request.POST['pass2']
 
         if User.objects.filter(username=username):
             messages.error(request, "Username already exists!!")
-            return redirect('vote:signup')
+            return redirect('pos:signup')
 
         if User.objects.filter(email=email):
             messages.error(request, "Email already exists!!")
-            return redirect('vote:signup')
+            return redirect('pos:signup')
 
         if pass1 != pass2:
             messages.error(request, "Passwords do not match")
-            return redirect('vote:signup')
+            return redirect('pos:signup')
 
         myuser = User.objects.create_user(username, email, pass1)
         myuser.first_name = fname
@@ -45,10 +85,11 @@ def signup(request):
 
         messages.success(request, "Your Account has been created successfully. \n ")
 
-        return redirect('vote:login')
+        return redirect('pos:login')
 
-    return render(request, 'vote/auth/signup.html')
+    return render(request, 'pos/auth/signup.html')
 
+@login_required
 def products(request, page):
     product_list = Product.objects.all().order_by("product_id")
     paginator = Paginator(product_list, per_page=10)
@@ -56,6 +97,7 @@ def products(request, page):
     context = {"page_object": page_object}
     return render(request, 'pos/user/products.html', context)
 
+@login_required
 def reports(request):
     result_list = None
 
@@ -77,6 +119,7 @@ def reports(request):
         'result_list': result_list,
     })
 
+@login_required
 def sales(request, page=1):
     sale_list = Sale.objects.all().order_by("-sale_id")
     paginator = Paginator(sale_list, per_page=12)
@@ -84,6 +127,7 @@ def sales(request, page=1):
     context = {"page_object": page_object}
     return render(request, "pos/user/sales.html", context)
 
+@login_required
 def save_product(request):
     product_list = Product.objects.all()
     page_number = 1
@@ -106,7 +150,7 @@ def save_product(request):
         return redirect('pos:products',page=page_number)
     return render(request, 'pos/user/new_product.html', context)
 
-
+@login_required
 def update_product(request, product_id):
     product = Product.objects.get(product_id=product_id)
     page_number = 1
@@ -133,6 +177,7 @@ def update_product(request, product_id):
         return redirect('pos:products', page=page_number)
     return render(request, 'pos/user/update_product.html', context)
 
+@login_required
 def receipt(request, sale_id):
     sale = Sale.objects.get(sale_id=sale_id)
     item_list = SaleItems.objects.filter(sale_id=sale)
@@ -143,6 +188,7 @@ def receipt(request, sale_id):
 
     return render(request, 'pos/user/receipt.html', context)
 
+@login_required
 def sale_receipt(request, sale_id):
     sale = Sale.objects.get(sale_id=sale_id)
     item_list = SaleItems.objects.filter(sale_id=sale)
@@ -153,6 +199,7 @@ def sale_receipt(request, sale_id):
 
     return render(request, 'pos/user/sale_receipt.html', context)
 
+@login_required
 def delete_product(request, product_id):
     product = Product.objects.get(product_id=product_id)
     name = product.name
@@ -169,7 +216,7 @@ def delete_product(request, product_id):
 
     return render(request, 'pos/user/delete_product.html', context)
 
-
+@login_required
 def stock(request, page):
     product_list = Product.objects.all().order_by("-product_id")
     paginator = Paginator(product_list, per_page=12)
@@ -177,6 +224,7 @@ def stock(request, page):
     context = {"page_object": page_object}
     return render(request, 'pos/user/stock.html', context)
 
+@login_required
 def add_stock(request, product_id):
     product_list = Product.objects.all()
     page_number = 1
@@ -203,7 +251,7 @@ def add_stock(request, product_id):
         return redirect('pos:stock', page=page_number)
     return render(request, 'pos/user/add_stock.html', context)
 
-
+@login_required
 def remove_stock(request, product_id):
     product_list = Product.objects.all()
     product = Product.objects.get(product_id=product_id)
@@ -233,10 +281,12 @@ def remove_stock(request, product_id):
         return redirect('pos:stock', page=1)
     return render(request, 'pos/user/remove_stock.html', context)
 
+@login_required
 def create_report(request):
     context = {}
     return render(request, 'pos/user/remove_stock.html', context)
 
+@login_required
 def remove_item(request):
     if request.method == 'POST':
         product_id = request.POST.get('product_id')
@@ -255,6 +305,7 @@ def remove_item(request):
 
     return redirect('pos:pos')
 
+@login_required
 def pos(request):
     if request.method == 'POST':
         # Handle adding sale items to session

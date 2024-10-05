@@ -16,22 +16,23 @@
                 <div class="fieldgroup">
                     <div>
                         <label for="first_name">First Name</label>
-                        <input id="first_name" type="text"/>
+                        <label for="first_name">{{ fname }}</label>
+                        <input id="first_name" type="text" value="{{ fname }}" readonly/>
                     </div>
                     <div>
                         <label for="first_name">Surname</label>
-                        <input id="first_name" type="text"/>
+                        <input id="first_name" type="text" value="{{ fname }}" readonly/>
                     </div>
                 </div>
                 
                 <div class="fieldgroup">
                     <div>
                         <label for="first_name">Username</label>
-                        <input id="first_name" type="text"/>
+                        <input id="first_name" type="text" value="{{ uname }}" readonly/>
                     </div>
                     <div>
                         <label for="first_name">Email Address</label>
-                        <input id="first_name" type="text"/>
+                        <input id="first_name" type="text" value="{{ email }}" readonly/>
                     </div>
                 </div>
             </div>

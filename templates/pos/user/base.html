@@ -44,6 +44,9 @@
             <div id="auth" class="auth">
                 ACCOUNT SETTINGS
             </div>
+            <div id="logout" class="logout">
+                LOGOUT
+            </div>
         </nav>
 
         <div id="reports-modal" class="modal">
@@ -137,6 +140,10 @@
     
     auth.onclick = function () {
         location.href = "/pos/account";
+    };
+
+    logout.onclick = function () {
+        location.href = "/pos/logout";
     };
 
 </script>
