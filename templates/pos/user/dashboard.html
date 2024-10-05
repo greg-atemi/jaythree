@@ -6,6 +6,13 @@
 {% endblock %}
 
 {% block body_block %}
+
+    {% for message in messages %}
+    <div class="message">
+        {{ message }}
+    </div>
+    {% endfor %}
+
     <div class="main2">
         <div class="pill">
             <span class="big">30</span>
