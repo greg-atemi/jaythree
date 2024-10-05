@@ -1,0 +1,24 @@
+{% extends 'pos/auth/auth_base.html' %}
+{% load static %}
+{% block title_block %}
+    <title>Logout</title>
+{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+
+{% block body_block %}
+    <body>
+        <div class="form-narrow">
+            <form>
+                <h1>YOU HAVE BEEN LOGGED OUT SUCCESSFULLY!</h1>
+                <div class="button-container">
+                    <a class="submit" href={% url 'pos:login' %}> LOGIN </a>
+                    <a class="submit2" href={% url 'pos:signup' %}> SIGNUP </a>
+                </div>
+                <div class="options">
+                    <a href="/" >Back to Home Page</a>
+                </div>
+            </form>
+        </div>
+    </body>
+{% endblock %}

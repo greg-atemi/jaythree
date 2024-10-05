@@ -5,6 +5,9 @@ app_name = 'pos'
 
 urlpatterns = [
     path('pos', views.pos, name='pos'),
+    path('login', views.login, name='login'),
+    path('logout', views.log_out, name='logout'),
+    path('signup', views.signup, name='signup'),
     path('account', views.account, name='account'),
     path('reports', views.reports, name='reports'),
     path('stock/<int:page>',views.stock,name='stock'),

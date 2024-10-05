@@ -9,7 +9,7 @@
 {% block body_block %}
 <body>
     <div class="form-large">
-        <form method="post" action="/vote/signup">
+        <form method="post" action="/pos/signup">
         {% for message in messages %}
             <br>
             <br>
@@ -23,10 +23,10 @@
         {% endfor %}
         {% csrf_token %}
             <h1>SIGNUP</h1>
-            <div class="field">
+            <!-- <div class="field">
                 <label for="username"> Username </label>
                 <input type="text" id="username" name="username" required>
-            </div>
+            </div> -->
 
             <div class="field">
                 <label for="fname"> First Name </label>
