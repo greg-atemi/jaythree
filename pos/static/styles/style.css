@@ -464,14 +464,14 @@ td .icon{
     flex-direction: column;
     padding-top: 40px;
     padding-left: 40px;
+    gap: 40px;
 }
 
 .pill2{
     padding: 40px;
     display: flex;
     flex-direction: column;
-    font-size: 16px;
-    font-family: Inter, sans-serif;
+    font-family: Lato, sans-serif;
     background-color: #ffffff;
     border-radius: 24px;
     margin-right: 40px;
@@ -483,6 +483,17 @@ td .icon{
     justify-content: space-between;
 }
 
+.pill2_heading_group{
+    margin-bottom: 32px;
+}
+
+.pill2_heading_group p{
+    font-size: 20px;
+    color: #171154;
+    font-family: Lato, sans-serif;
+    font-weight: bolder;
+}
+
 .fieldset{
     gap: 10%;
 }
@@ -491,9 +502,26 @@ td .icon{
     display: flex;
     width: 80%;
     flex-direction: column;
+    gap: 24px;
 }
 
 .fieldgroup div{
     display: flex;
     flex-direction: column;
+}
+
+.fieldgroup label{
+    margin-bottom: 8px;
+    font-size: 18px;
+}
+
+.fieldgroup input{
+    border-radius: 8px;
+    border: 1px solid #bcc0c5;
+    padding: 12px;
+    font-size: 16px;
+}
+
+.update_password_modal{
+    display: block;
 }

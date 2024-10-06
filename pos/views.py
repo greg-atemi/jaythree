@@ -1,11 +1,11 @@
+from django.contrib.auth import authenticate, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login as auth_login
-from django.contrib.auth import authenticate
-from django.contrib.auth import logout
 from pos.models import Product, Sale, SaleItems
 from django.shortcuts import redirect, render
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
+from django.contrib.auth import logout
 from django.contrib import messages
 from django.utils import timezone
 
@@ -47,15 +47,57 @@ def account(request):
         'lname': lname,
         'email': email
     }
-    print("Username: " + uname)
-    print("First name: " + fname)
-    print("Last name: " + lname)
-    print("Email: " + email)
     return render(request, 'pos/user/account.html', context)
+
+@login_required
+def change_password(request):
+    if request.method == 'POST':
+        current_password = request.POST.get('current_password')
+        new_password = request.POST.get('new_password')
+        new_password_2 = request.POST.get('new_password_2')
+
+        user = request.user
+
+        print(f"User: {user}")  # Debug: Print current user info
+        print(f"Current Password: {current_password}")  # Debug: Print current password entered
+        print(f"New Password: {new_password}")  # Debug: Print new password entered
+        print(f"New Password Confirmation: {new_password_2}")  # Debug: Print new password confirmation
+
+        # Check if the current password is correct
+        if not user.check_password(current_password):
+            messages.error(request, 'The current password is incorrect.')
+            return redirect('pos:account')
+
+        # Check if the new passwords match
+        if new_password != new_password_2:
+            messages.error(request, 'The new passwords do not match.')
+            return redirect('pos:account')
+
+        # Check password strength and set the new password
+        if len(new_password) < 4:
+            messages.error(request, 'The new password must be at least 4 characters long.')
+            return redirect('pos:account')
+
+        # Set the new password
+        user.set_password(new_password)
+        user.save()
+
+        if user.check_password(new_password):
+            print("Password successfully updated!")  # Debug: Password change confirmation
+        else:
+            print("Error: Password not updated")  # Debug: Password update failed
+
+        # Keep the user logged in after changing the password
+        update_session_auth_hash(request, user)
+
+        messages.success(request, 'Your password has been successfully updated.')
+        #return redirect('pos:account')
+        return redirect('dashboard')
+
+    return render(request, 'pos/user/account.html')  # Replace with your actual template
 
 def signup(request):
     if request.method == "POST":
-        # username = request.POST['username']
         fname = request.POST['fname']
         lname = request.POST['lname']
         username = fname + lname
