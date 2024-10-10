@@ -23,7 +23,7 @@ def login(request):
         if user is not None:
             auth_login(request, user)
             messages.success(request, "Login Successful.")
-            return redirect('dashboard')
+            return redirect('products/1')
 
         else:
             messages.error(request, "Username or Password is incorrect")

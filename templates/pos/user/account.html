@@ -147,19 +147,19 @@
                 update_password_modal.style.display = "none";
             });
 
-            window.onload = function () {
-                modal.style.display = "block";
-            }
+            // window.onload = function () {
+            //     modal.style.display = "block";
+            // }
 
             cancel.onclick = function () {
                 modal.style.display = "none";
             }
 
-            window.onclick = function(event) {
-                if (event.target === modal) {
-                    location.href = "/pos/products/1";
-                }
-            }
+            // window.onclick = function(event) {
+            //     if (event.target === modal) {
+            //         location.href = "/pos/products/1";
+            //     }
+            // }
 
             product.onclick = function () {
                 location.href = "/pos/products/1";
