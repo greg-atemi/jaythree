@@ -26,8 +26,6 @@ html,body{
 
 .form-large{
     margin-left: 50%;
-    padding-top: 32px;
-    padding-bottom: 32px;
     display: flex;
     align-items: center;
     justify-content: center;

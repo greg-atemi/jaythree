@@ -12,6 +12,11 @@ html,body{
     color: #FFFFFF;
     width: 20%;
     height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-left: 8px;
+    padding-right: 8px;
 }
 
 body{
@@ -26,25 +31,44 @@ body{
 }
 
 .sidebar button{
+    padding-left: 20px;
+    padding-right: 20px;
     background-color: transparent;
+    border-radius: 12px;
     border: transparent;
     display: flex;
     align-items: center;
-    width: 80%;
-    margin-left: 8px;
-    margin-right: 8px;
+    width: 100%;
     color: #FFFFFF;
-    font-size: 14px;
+    font-size: 20px;
     font-family: Lato, sans-serif;
-    margin-bottom: 8px;
+    margin-bottom: 12px;
 }
 
+.sidebar button:hover {
+    background-color: #0c092a; /* Background color on hover */
+    cursor: pointer;
+  }
+
 .nav-logo{
-    width: 24px;
-    height: 24px;
+    width: 32px;
+    height: 32px;
     margin-right: 16px;
     margin-top: 8px;
     margin-bottom: 8px;
+}
+
+.logo-div{
+    display: flex;
+    width: auto;
+    justify-content: center;
+    margin-bottom: 32px;
+    margin-top: 32px;
+}
+
+.big-logo{
+    width: 140px;
+    height: 140px;
 }
 
 .topbar{
