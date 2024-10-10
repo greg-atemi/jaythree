@@ -13,42 +13,48 @@
 </head>
 <body>
     <nav class="sidebar">
-        <button id="dashboard">
-            <img alt="home" class="nav-logo" src="{% static 'images/home.svg' %}"/>
-            Dashboard
-        </button>
-        <button id="product">
-            <img alt="home" class="nav-logo" src="{% static 'images/box.svg' %}"/>
-            Product
-        </button>
-        <button id="pos">
-            <img alt="home" class="nav-logo" src="{% static 'images/pos.svg' %}"/>
-            POS
-        </button>
-        <button id="stock">
-            <img alt="home" class="nav-logo" src="{% static 'images/stock.svg' %}"/>
-            Stock
-        </button>
-        <button id="sales">
-            <img alt="home" class="nav-logo" src="{% static 'images/sales.svg' %}"/>
-            Sales
-        </button>
-        <button id="reports">
-            <img alt="home" class="nav-logo" src="{% static 'images/report.svg' %}"/>
-            Reports
-        </button>
+        <div>
+            <div class="logo-div">
+                <img alt="logo" class="big-logo" src="{% static 'images/Logo1.0.svg' %}"/>
+            </div>
+            <button id="dashboard">
+                <img alt="home" class="nav-logo" src="{% static 'images/home.svg' %}"/>
+                Dashboard
+            </button>
+            <button id="product">
+                <img alt="home" class="nav-logo" src="{% static 'images/box.svg' %}"/>
+                Product
+            </button>
+            <button id="pos">
+                <img alt="home" class="nav-logo" src="{% static 'images/pos.svg' %}"/>
+                POS
+            </button>
+            <button id="stock">
+                <img alt="home" class="nav-logo" src="{% static 'images/stock.svg' %}"/>
+                Stock
+            </button>
+            <button id="sales">
+                <img alt="home" class="nav-logo" src="{% static 'images/sales.svg' %}"/>
+                Sales
+            </button>
+            <button id="reports">
+                <img alt="home" class="nav-logo" src="{% static 'images/report.svg' %}"/>
+                Reports
+            </button>
+        </div>
+        <div>
+            <button id="settings">
+                <img alt="home" class="nav-logo" src="{% static 'images/settings.svg' %}"/>
+                Account
+            </button>
+            <button id="logout">
+                <img alt="home" class="nav-logo" src="{% static 'images/logout.svg' %}"/>
+                Logout
+            </button>
+        </div>
     </nav>
 
     <div class="parent">
-        <nav class="topbar">
-            <div id="auth" class="auth">
-                ACCOUNT SETTINGS
-            </div>
-            <div id="logout" class="logout">
-                LOGOUT
-            </div>
-        </nav>
-
         <div id="reports-modal" class="modal">
             <div class="modal-content">
                 <p>REPORTS</p>
@@ -69,7 +75,7 @@
                     </div>
                     
                     <div class="button-group">                        
-                        <input class="btn-primary" type="submit" value="SAVE"/>
+                        <input class="btn-primary" type="submit" value="SUBMIT"/>
                         <button type="button" id="close-modal" class="btn-secondary"> CANCEL </button>
                     </div>
                 </form>
@@ -92,7 +98,7 @@
     let reports = document.getElementById("reports");
     let sales = document.getElementById("sales");
     let stock = document.getElementById("stock");
-    let auth = document.getElementById("auth")
+    let settings = document.getElementById("settings")
     let pos = document.getElementById("pos");
 
     document.getElementById('dateRangeForm').addEventListener('submit', function(event) {
@@ -138,7 +144,7 @@
         reports_modal.style.display = "none";
     });
     
-    auth.onclick = function () {
+    settings.onclick = function () {
         location.href = "/pos/account";
     };
 
