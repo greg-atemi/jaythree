@@ -46,4 +46,4 @@ COPY . /app
 EXPOSE 8000
 
 # Run the Django application using gunicorn
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "jaythree.wsgi:application"]
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
