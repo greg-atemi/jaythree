@@ -1,9 +1,0 @@
-[webservers]
-192.168.200.214
-
-[webservers:vars]
-ansible_user=sandbox
-ansible_password=Gatemi
-ansible_connection=paramiko
-ansible_ssh_extra_args='-o StrictHostKeyChecking=no'
-UserKnownHostsFile=/dev/null
