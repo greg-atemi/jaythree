@@ -1,49 +1,28 @@
-# Stage 1: Build stage
-FROM python:3.11-slim as builder
+# Use the official Python Alpine image as a base
+FROM python:3.11-alpine
 
 # Set environment variables
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 
-# Install dependencies
-RUN apt-get update && \
-    apt-get install -y build-essential libpq-dev pkg-config \
-    libmariadb-dev libmariadb-dev-compat default-libmysqlclient-dev
+# Install build dependencies
+RUN apk add --no-cache \
+    build-base \
+    mariadb-dev \
+    && pip install --no-cache-dir mysqlclient
 
-# Create a directory for the application
+# Set the working directory
 WORKDIR /app
 
-# Copy the requirements file and install the dependencies in a virtual environment
+# Copy requirements.txt and install Python dependencies
 COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
-RUN python -m venv /opt/venv && \
-    /opt/venv/bin/pip install --upgrade pip && \
-    /opt/venv/bin/pip install -r requirements.txt
+# Copy the Django project files
+COPY . .
 
-# Stage 2: Production stage
-FROM python:3.11-slim
-
-# Set environment variables
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
-
-# Copy the virtual environment from the builder stage
-COPY --from=builder /opt/venv /opt/venv
-
-# Activate virtual environment
-ENV PATH="/opt/venv/bin:$PATH"
-
-# Create a directory for the application
-WORKDIR /app
-
-# Install runtime dependencies
-RUN apt-get update && apt-get install -y libpq-dev && rm -rf /var/lib/apt/lists/*
-
-# Copy the Django project code from the current directory
-COPY . /app
-
-# Expose the port Django will run on
+# Expose the port your app runs on
 EXPOSE 8000
 
-# Run the Django application using gunicorn
+# Start the Django development server
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
