@@ -1,0 +1,10 @@
+services:
+  jaythree:
+    image: gregatemi/jaythree:v1
+    container_name: jaythree
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env  # Make sure to include your environment variables here
+    command: >
+      sh -c "python manage.py runserver 0.0.0.0:8000"
